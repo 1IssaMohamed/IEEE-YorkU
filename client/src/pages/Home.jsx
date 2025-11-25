@@ -1,0 +1,195 @@
+import { useEffect, useState } from "react";
+
+import Header from "../components/Header.jsx";
+import HeroSection from "../components/HeroSection.jsx";
+import EventCard from "../components/EventCard.jsx";
+import TeamCard from "../components/TeamCard.jsx";
+import MessageModal from "../components/MessageModal.jsx";
+
+const HomePage = ({
+  events,
+  team,
+  mission,
+  onNavigate,
+  currentSection,
+  onSectionInView,
+  activeTheme,
+  modalMessage,
+  onCloseModal
+}) => {
+  // State to track which sections have been revealed (for animation)
+  const [visibleSections, setVisibleSections] = useState({ home: true });
+
+  // Destructure the active theme colors
+  const [start = "#dbeafe", mid = "#f8fafc", end = "#ffffff"] = activeTheme ?? [];
+
+  // Create the gradient string for the background
+  const gradientBackground = `linear-gradient(135deg, ${start}, ${mid}, ${end})`;
+
+  // Effect to set up the IntersectionObserver for scroll detection
+  useEffect(() => {
+    if (!onSectionInView) {
+      return undefined;
+    }
+
+    // Select all sections with an ID
+    const sections = Array.from(document.querySelectorAll("section[id]"));
+
+    // Create an observer to watch for sections entering the viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { id } = entry.target;
+          if (!id) {
+            return;
+          }
+
+          // If section is intersecting, mark it as visible (for reveal animation)
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+          }
+
+          // If section takes up enough space, update the active navigation state
+          if (entry.intersectionRatio >= 0.55) {
+            onSectionInView(id);
+          }
+        });
+      },
+      { threshold: [0.25, 0.55] } // Trigger at 25% and 55% visibility
+    );
+
+    // Start observing
+    sections.forEach((section) => observer.observe(section));
+
+    // Cleanup observer on unmount
+    return () => observer.disconnect();
+  }, [onSectionInView]);
+
+  // Helper to generate classes for reveal animations
+  const revealClass = (id) => (
+    visibleSections[id]
+      ? "opacity-100 translate-y-0" // Visible state
+      : "opacity-0 translate-y-8"   // Hidden state (shifted down and transparent)
+  );
+
+  return (
+    <div className="relative min-h-screen">
+      {/* Background gradient layer */}
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-80 transition-all duration-700 ease-out"
+          style={{ background: gradientBackground, transition: "background 0.7s ease" }}
+        />
+      </div>
+
+      {/* Navigation Header */}
+      <Header onNavigate={onNavigate} currentSection={currentSection} />
+
+      <main className="pt-16">
+        {/* Hero Section */}
+        <HeroSection onNavigate={onNavigate} isVisible={Boolean(visibleSections.home)} />
+
+        {/* About Section */}
+            {/* About Section */}
+        <section id="about" className="py-16 md:py-24 bg-slate-50/70 backdrop-blur">
+          <div className={`mx-auto max-w-5xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("about")}`}>
+            <h2 className="border-b-2 border-ieee-300 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+              About IEEE YorkU
+            </h2>
+            <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-slate-600">
+              {mission}
+            </p>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {[
+                { title: "Workshops", description: "Hands-on experience in emerging tech." },
+                { title: "Industry Links", description: "Networking events and career support." },
+                { title: "Community", description: "Collaborative projects and mentorship." }
+              ].map(({ title, description }) => (
+                <div key={title} className="rounded-2xl border-t-4 border-ieee-500 bg-white/90 p-6 text-center shadow backdrop-blur">
+                  <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
+                  <p className="mt-2 text-sm text-slate-500">{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Events Section */}
+        <section id="events" className="py-16 md:py-24 bg-white/80 backdrop-blur">
+          <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("events")}`}>
+            <h2 className="border-b-2 border-ieee-300 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+              Upcoming Events
+            </h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {events.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section id="team" className="py-16 md:py-24 bg-ieee-50/70 backdrop-blur">
+          <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
+            <h2 className="border-b-2 border-ieee-300 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+              Meet the Executive Team
+            </h2>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {team.map((member) => (
+                <TeamCard key={member.id} member={member} />
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer id="contact" className="bg-slate-900 py-12 text-center text-slate-300">
+        <div className="mx-auto max-w-4xl px-4">
+          <h3 className="mb-6 text-2xl font-bold text-white">CONTACT US</h3>
+          
+          <div className="mb-8">
+            <p className="text-lg font-medium text-slate-400">Email</p>
+            <a href="mailto:ieee@yorku.ca" className="text-xl text-ieee-100 hover:text-white transition-colors">
+              ieee@yorku.ca
+            </a>
+          </div>
+
+          <div className="flex justify-center space-x-8 mb-10">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1">
+              <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-pink-600 transition-colors">
+                {/* Instagram Icon */}
+                <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.407-.06 4.123-.06h.08zm3.543 1.922c-1.163.032-2.85.032-4.013.032-1.163 0-2.85 0-4.013-.032-1.044-.03-1.621-.162-2.045-.327a3.001 3.001 0 00-1.12-.73c-.447-.176-.954-.367-1.93-.413-1.133-.053-1.48-.066-4.196-.066-.344 0-.688.002-1.03.007-2.567.043-2.912.056-3.968.102-.976.046-1.483.237-1.93.413a3.001 3.001 0 00-1.12.73 3.001 3.001 0 00-.73 1.12c-.165.424-.297 1.001-.327 2.045-.046 1.056-.059 1.401-.102 3.968-.005.342.007.686.007-1.03 0-2.716.013 3.063.066 4.196.046.976.237 1.483.413 1.93.176.447.43.836.73 1.12.284.3.673.554 1.12.73.447.176.954.367 1.93.413 1.133.053 1.48.066 4.196.066.344 0 .688-.002 1.03-.007 2.567-.043 2.912-.056 3.968-.102.976-.046 1.483-.237 1.93-.413a3.001 3.001 0 001.12-.73 3.001 3.001 0 00.73-1.12c.165-.424.297-1.001.327-2.045.046-1.056.059-1.401.102-3.968.005-.342.007-.686.007-1.03 0-2.716-.013-3.063-.066-4.196-.046-.976-.237-1.483-.413-1.93a3.001 3.001 0 00-.73-1.12 3.001 3.001 0 00-1.12-.73c-.447-.176-.954-.367-1.93-.413-1.133-.053-1.48-.066-4.196-.066zM12.315 7.063a4.937 4.937 0 110 9.874 4.937 4.937 0 010-9.874zm0 1.922a3.015 3.015 0 100 6.03 3.015 3.015 0 000-6.03zm5.338-3.205a1.281 1.281 0 110 2.562 1.281 1.281 0 010-2.562z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </a>
+
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1">
+              <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                {/* LinkedIn Icon */}
+                <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </a>
+
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1">
+              <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-gray-600 transition-colors">
+                {/* GitHub Icon */}
+                <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </a>
+          </div>
+
+          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} IEEE York University Student Branch. All rights reserved.</p>
+        </div>
+      </footer>
+
+      <MessageModal message={modalMessage} onClose={onCloseModal} />
+    </div>
+  );
+};
+
+export default HomePage;
