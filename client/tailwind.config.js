@@ -7,11 +7,19 @@ export default {
     extend: {
       colors: {
         ieee: {
-          50: "#f0f8ff",
-          100: "#cceeff",
-          500: "#006699",
-          600: "#005a8c",
-          700: "#004c7a"
+          50: "#e6f3f9",
+          100: "#cce7f3",
+          200: "#99cfe7",
+          300: "#66b7db",
+          400: "#339fcf",
+          500: "#0087c3",
+          600: "#00629B",  // Official IEEE Blue
+          700: "#004d7a",
+          800: "#003859",
+          900: "#002338"
+        },
+        yorku: {
+          red: "#E31837"  // Official YorkU Red
         }
       }
     }

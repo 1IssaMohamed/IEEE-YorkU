@@ -5,9 +5,11 @@ import HeroSection from "../components/HeroSection.jsx";
 import EventCard from "../components/EventCard.jsx";
 import TeamCard from "../components/TeamCard.jsx";
 import MessageModal from "../components/MessageModal.jsx";
+import PastEventsCarousel from "../components/PastEventsCarousel.jsx";
 
 const HomePage = ({
   events,
+  pastEvents,
   team,
   mission,
   onNavigate,
@@ -91,12 +93,12 @@ const HomePage = ({
 
         {/* About Section */}
             {/* About Section */}
-        <section id="about" className="py-16 md:py-24 bg-slate-50/70 backdrop-blur">
+        <section id="about" className="py-16 md:py-24 bg-gradient-to-br from-slate-50 via-white to-ieee-50/30 backdrop-blur">
           <div className={`mx-auto max-w-5xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("about")}`}>
-            <h2 className="border-b-2 border-ieee-300 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+            <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
               About IEEE YorkU
             </h2>
-            <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-slate-600">
+            <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-slate-700">
               {mission}
             </p>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -105,19 +107,34 @@ const HomePage = ({
                 { title: "Industry Links", description: "Networking events and career support." },
                 { title: "Community", description: "Collaborative projects and mentorship." }
               ].map(({ title, description }) => (
-                <div key={title} className="rounded-2xl border-t-4 border-ieee-500 bg-white/90 p-6 text-center shadow backdrop-blur">
-                  <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
-                  <p className="mt-2 text-sm text-slate-500">{description}</p>
+                <div key={title} className="rounded-2xl border-t-4 border-ieee-600 bg-white p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                  <h3 className="text-xl font-bold text-ieee-600">{title}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Events Section */}
-        <section id="events" className="py-16 md:py-24 bg-white/80 backdrop-blur">
+        {/* Past Events Gallery Section */}
+        <section id="past-events" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-white backdrop-blur">
+          <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("past-events")}`}>
+            <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+              Past Events Gallery
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-slate-700">
+              Relive the highlights from our recent events and workshops
+            </p>
+            <div className="mt-10">
+              <PastEventsCarousel pastEvents={pastEvents} />
+            </div>
+          </div>
+        </section>
+
+        {/* Upcoming Events Section */}
+        <section id="events" className="py-16 md:py-24 bg-gradient-to-br from-ieee-50/40 via-white to-slate-50 backdrop-blur">
           <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("events")}`}>
-            <h2 className="border-b-2 border-ieee-300 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+            <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
               Upcoming Events
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -129,15 +146,75 @@ const HomePage = ({
         </section>
 
         {/* Team Section */}
-        <section id="team" className="py-16 md:py-24 bg-ieee-50/70 backdrop-blur">
-          <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
-            <h2 className="border-b-2 border-ieee-300 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+        <section id="team" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-yorku-red/5 backdrop-blur">
+          <div className={`mx-auto max-w-7xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
+            <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
               Meet the Executive Team
             </h2>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {team.map((member) => (
-                <TeamCard key={member.id} member={member} />
-              ))}
+            
+            {/* Org Chart Layout */}
+            {team && team.length > 0 && (
+              <div className="mt-12 space-y-8">
+                {/* Chair - Top Level */}
+                {team[0] && (
+                  <>
+                    <div className="flex justify-center">
+                      <div className="w-64">
+                        <TeamCard member={team[0]} level="chair" />
+                      </div>
+                    </div>
+
+                    {/* Connection Line */}
+                    <div className="flex justify-center">
+                      <div className="h-8 w-1 bg-gradient-to-b from-ieee-600 to-yorku-red"></div>
+                    </div>
+                  </>
+                )}
+
+                {/* Vice Chairs - Second Level */}
+                {(team[1] || team[2]) && (
+                  <div className="relative flex justify-center gap-4">
+                    {/* Horizontal connecting line */}
+                    <div className="absolute top-0 left-1/2 w-64 h-1 bg-gradient-to-r from-yorku-red via-ieee-600 to-yorku-red transform -translate-x-1/2"></div>
+                    
+                    <div className="flex gap-8 pt-8">
+                      {team[1] && (
+                        <div className="w-56">
+                          <TeamCard member={team[1]} level="vice" />
+                        </div>
+                      )}
+                      {team[2] && (
+                        <div className="w-56">
+                          <TeamCard member={team[2]} level="vice" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Directors & Officers - Grid Layout */}
+                {team.length > 3 && (
+                  <div className="pt-8">
+                    <div className="mb-4 text-center">
+                      <span className="inline-block rounded-full bg-ieee-600 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                        Directors & Officers
+                      </span>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                      {team.slice(3).map((member) => (
+                        <TeamCard key={member.id} member={member} level="director" />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Join CTA */}
+            <div className="mt-12 text-center">
+              <p className="text-sm text-slate-600">
+                Interested in joining our executive team? Contact us at <a href="mailto:ieee@yorku.ca" className="font-semibold text-ieee-600 hover:text-yorku-red transition-colors">ieee@yorku.ca</a>
+              </p>
             </div>
           </div>
         </section>
@@ -183,7 +260,12 @@ const HomePage = ({
             </a>
           </div>
 
-          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} IEEE York University Student Branch. All rights reserved.</p>
+          <div className="mt-10 border-t border-slate-700 pt-8">
+            <p className="text-sm text-slate-400 mb-2">Affiliated with IEEE Region 7 | IEEE Toronto Section</p>
+            <p className="text-xs text-slate-500">York University Lassonde School of Engineering</p>
+          </div>
+
+          <p className="mt-6 text-sm text-slate-500">&copy; {new Date().getFullYear()} IEEE York University Student Branch. All rights reserved.</p>
         </div>
       </footer>
 

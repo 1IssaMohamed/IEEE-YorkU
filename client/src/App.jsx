@@ -17,7 +17,9 @@ const SECTION_THEMES = {
 const App = () => {
   // State for data fetched from the API
   const [events, setEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
   const [team, setTeam] = useState([]);
+  const [sponsors, setSponsors] = useState([]);
   const [mission, setMission] = useState("");
 
   // State for UI control (navigation and forms)
@@ -32,14 +34,18 @@ const App = () => {
     const fetchData = async () => {
       try {
         // Fetch all data in parallel for better performance
-        const [eventsRes, teamRes, infoRes] = await Promise.all([
+        const [eventsRes, pastEventsRes, teamRes, sponsorsRes, infoRes] = await Promise.all([
           axios.get("/api/events"),
+          axios.get("/api/past-events"),
           axios.get("/api/team"),
+          axios.get("/api/sponsors"),
           axios.get("/api/info")
         ]);
 
         setEvents(eventsRes.data ?? []);
+        setPastEvents(pastEventsRes.data ?? []);
         setTeam(teamRes.data ?? []);
+        setSponsors(sponsorsRes.data ?? []);
         setMission(infoRes.data?.mission ?? "");
       } catch (error) {
         console.error("Failed to load initial data", error);
@@ -70,7 +76,9 @@ const App = () => {
   return (
     <HomePage
       events={events}
+      pastEvents={pastEvents}
       team={team}
+      sponsors={sponsors}
       mission={mission}
       onNavigate={handleNavigate}
       currentSection={currentSection}

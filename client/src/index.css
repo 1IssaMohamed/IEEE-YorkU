@@ -2,6 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /* Infinite scroll animation for sponsor ribbon */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+
+  .animate-scroll-left {
+    animation: scroll-left 30s linear infinite;
+  }
+
+  .animate-scroll-left:hover {
+    animation-play-state: paused;
+  }
+
+  /* Floating animations for geometric shapes */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) translateX(0) scale(1);
+    }
+    33% {
+      transform: translateY(-40px) translateX(25px) scale(1.05);
+    }
+    66% {
+      transform: translateY(-20px) translateX(-25px) scale(0.95);
+    }
+  }
+
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0) translateX(0) rotate(45deg) scale(1);
+    }
+    50% {
+      transform: translateY(-60px) translateX(30px) rotate(45deg) scale(1.1);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0) translateX(0) scale(1);
+    }
+    33% {
+      transform: translateY(35px) translateX(-30px) scale(1.08);
+    }
+    66% {
+      transform: translateY(-50px) translateX(15px) scale(0.92);
+    }
+  }
+
+  .animate-float {
+    animation: float 12s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float-slow 15s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 13s ease-in-out infinite 2s;
+  }
+}
+
 :root {
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #1f2933;

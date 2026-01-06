@@ -18,8 +18,10 @@ const Header = ({ onNavigate, currentSection }) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow transition-all">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-8">
-        <div className="flex items-center space-x-2 text-ieee-600">
+        <div className="flex items-center space-x-3 text-ieee-600">
           <img src="/ieee.png" alt="IEEE Logo" className="h-10 w-10 object-contain" />
+          <div className="h-8 w-px bg-slate-300"></div>
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/York_University_Logo.svg/240px-York_University_Logo.svg.png" alt="York University Logo" className="h-10 w-auto object-contain" />
           <div className="flex flex-col leading-tight">
             <span className="text-lg font-bold text-slate-900">IEEE YorkU</span>
             <span className="text-xs font-medium uppercase tracking-[0.25em] text-slate-500">Student Branch</span>
@@ -31,8 +33,8 @@ const Header = ({ onNavigate, currentSection }) => {
             <button
               key={path}
               onClick={() => handleNavigate(path)}
-              className={`border-b-2 border-transparent pb-1 text-sm font-semibold uppercase tracking-wide transition-colors
-                ${currentSection === path ? "border-ieee-500 text-ieee-600" : "text-slate-600 hover:text-ieee-600"}`}
+              className={`border-b-2 border-transparent pb-1 text-sm font-bold uppercase tracking-wide transition-colors
+                ${currentSection === path ? "border-yorku-red text-yorku-red" : "text-slate-700 hover:text-ieee-600"}`}
             >
               {name}
             </button>
