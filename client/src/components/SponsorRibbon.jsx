@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 /**
  * Infinite Scrolling Sponsor Ribbon
  * 
@@ -29,6 +31,8 @@ const SponsorRibbon = ({ sponsors }) => {
               <img
                 src={sponsor.logo}
                 alt={sponsor.name}
+                loading="lazy"
+                decoding="async"
                 className="h-16 w-auto object-contain grayscale opacity-60 transition hover:grayscale-0 hover:opacity-100"
               />
             ) : (
@@ -41,6 +45,20 @@ const SponsorRibbon = ({ sponsors }) => {
       </div>
     </div>
   );
+};
+
+SponsorRibbon.propTypes = {
+  sponsors: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      logo: PropTypes.string
+    })
+  )
+};
+
+SponsorRibbon.defaultProps = {
+  sponsors: []
 };
 
 export default SponsorRibbon;

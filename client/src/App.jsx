@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import PropTypes from "prop-types";
 
+import api from "./api/client.js";
 import HomePage from "./pages/Home.jsx";
 
 // Theme configuration for different sections
@@ -22,24 +23,36 @@ const App = () => {
   const [sponsors, setSponsors] = useState([]);
   const [mission, setMission] = useState("");
 
+  // State for loading and error handling
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // State for UI control (navigation and forms)
   const [currentSection, setCurrentSection] = useState("home");
   const [modalMessage, setModalMessage] = useState(null);
 
-  // Determine the active theme based on the current section
-  const activeTheme = SECTION_THEMES[currentSection] ?? SECTION_THEMES.default;
+  // Determine the active theme based on the current section (memoized)
+  const activeTheme = useMemo(
+    () => SECTION_THEMES[currentSection] ?? SECTION_THEMES.default,
+    [currentSection]
+  );
 
   // Effect to fetch initial data when the component mounts
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
         // Fetch all data in parallel for better performance
         const [eventsRes, pastEventsRes, teamRes, sponsorsRes, infoRes] = await Promise.all([
-          axios.get("/api/events"),
-          axios.get("/api/past-events"),
-          axios.get("/api/team"),
-          axios.get("/api/sponsors"),
-          axios.get("/api/info")
+          api.get("/events", { signal: controller.signal }),
+          api.get("/past-events", { signal: controller.signal }),
+          api.get("/team", { signal: controller.signal }),
+          api.get("/sponsors", { signal: controller.signal }),
+          api.get("/info", { signal: controller.signal })
         ]);
 
         setEvents(eventsRes.data ?? []);
@@ -47,16 +60,25 @@ const App = () => {
         setTeam(teamRes.data ?? []);
         setSponsors(sponsorsRes.data ?? []);
         setMission(infoRes.data?.mission ?? "");
-      } catch (error) {
-        console.error("Failed to load initial data", error);
-        setModalMessage({
-          title: "Network Error",
-          content: "We could not load the latest data. Please try again later."
-        });
+      } catch (err) {
+        // Don't set error if request was cancelled
+        if (err.name !== "CanceledError") {
+          console.error("Failed to load initial data", err);
+          setError(err.message || "Failed to load data");
+          setModalMessage({
+            title: "Network Error",
+            content: "We could not load the latest data. Please try again later."
+          });
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
+
+    // Cleanup: abort pending requests on unmount
+    return () => controller.abort();
   }, []);
 
   // Handler for manual navigation (clicking links)
@@ -73,6 +95,9 @@ const App = () => {
     setCurrentSection((prev) => (prev === sectionId ? prev : sectionId));
   }, []);
 
+  // Memoize the close modal handler
+  const handleCloseModal = useCallback(() => setModalMessage(null), []);
+
   return (
     <HomePage
       events={events}
@@ -80,12 +105,14 @@ const App = () => {
       team={team}
       sponsors={sponsors}
       mission={mission}
+      isLoading={isLoading}
+      error={error}
       onNavigate={handleNavigate}
       currentSection={currentSection}
       onSectionInView={handleSectionInView}
       activeTheme={activeTheme}
       modalMessage={modalMessage}
-      onCloseModal={() => setModalMessage(null)}
+      onCloseModal={handleCloseModal}
     />
   );
 };

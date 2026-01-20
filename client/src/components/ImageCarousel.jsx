@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 
 const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,20 +18,20 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
     return () => clearInterval(interval);
   }, [currentIndex, isAutoPlaying, images.length, autoPlayInterval]);
 
-  const goToSlide = (index) => {
+  const goToSlide = useCallback((index) => {
     setCurrentIndex(index);
     setIsAutoPlaying(false);
-  };
+  }, []);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
     setIsAutoPlaying(false);
-  };
+  }, [images.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
     setIsAutoPlaying(false);
-  };
+  }, [images.length]);
 
   if (!images || images.length === 0) {
     return (
@@ -58,6 +59,8 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
             <img
               src={image.url}
               alt={image.caption || `Slide ${index + 1}`}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
               className="h-full w-full object-cover"
             />
             {image.caption && (
@@ -69,26 +72,26 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Always visible on mobile */}
       {images.length > 1 && (
         <>
           <button
             type="button"
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 opacity-0 shadow-lg transition hover:bg-white group-hover:opacity-100"
+            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white md:group-hover:opacity-100 touch-manipulation"
             aria-label="Previous image"
           >
-            <svg className="h-6 w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             type="button"
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 opacity-0 shadow-lg transition hover:bg-white group-hover:opacity-100"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white md:group-hover:opacity-100 touch-manipulation"
             aria-label="Next image"
           >
-            <svg className="h-6 w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -120,6 +123,20 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
       </div>
     </div>
   );
+};
+
+ImageCarousel.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      caption: PropTypes.string
+    })
+  ).isRequired,
+  autoPlayInterval: PropTypes.number
+};
+
+ImageCarousel.defaultProps = {
+  autoPlayInterval: 4000
 };
 
 export default ImageCarousel;

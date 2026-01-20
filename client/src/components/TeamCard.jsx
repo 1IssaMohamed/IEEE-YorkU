@@ -1,39 +1,41 @@
-const TeamCard = ({ member, level = "default" }) => {
-  // Color scheme based on hierarchy level
-  const levelStyles = {
-    chair: "bg-gradient-to-br from-ieee-600 to-ieee-700 text-white border-ieee-700",
-    vice: "bg-gradient-to-br from-yorku-red to-red-700 text-white border-yorku-red",
-    director: "bg-white text-slate-900 border-ieee-500",
-    default: "bg-white text-slate-900 border-slate-300"
-  };
+import PropTypes from "prop-types";
 
-  const style = levelStyles[level] || levelStyles.default;
+const TeamCard = ({ member, level = "default" }) => {
   const hasData = member.name && member.name.trim() !== "";
 
   return (
-    <article className={`flex flex-col items-center rounded-xl border-2 ${style} p-4 shadow-md transition hover:shadow-lg ${!hasData ? 'opacity-60' : ''}`}>
-      <div className={`mb-2 grid h-16 w-16 place-content-center rounded-full text-2xl ${
-        level === 'chair' || level === 'vice' ? 'bg-white/20' : 'bg-slate-100'
-      }`}>
-        <span aria-hidden="true">
-          {level === 'chair' ? '👑' : level === 'vice' ? '⭐' : '👤'}
-        </span>
+    <article className={`flex flex-col items-center rounded-xl border-2 bg-white text-slate-900 border-ieee-500 p-4 md:p-6 shadow-md transition hover:shadow-lg ${!hasData ? 'opacity-60' : ''}`}>
+      {/* Responsive placeholder for face images */}
+      <div className="mb-3 md:mb-4 grid h-24 w-24 md:h-32 md:w-32 place-content-center rounded-full bg-slate-100 text-3xl md:text-4xl">
+        <span aria-hidden="true">👤</span>
       </div>
-      <h3 className={`text-base font-bold ${level === 'chair' || level === 'vice' ? 'text-white' : 'text-slate-900'}`}>
+      <h3 className="text-base md:text-lg font-bold text-slate-900 text-center">
         {hasData ? member.name : 'Open Position'}
       </h3>
-      <p className={`mt-1 text-sm font-semibold ${
-        level === 'chair' || level === 'vice' ? 'text-white/90' : 'text-ieee-600'
-      }`}>
+      <p className="mt-1 md:mt-2 text-xs md:text-sm font-semibold text-ieee-600 text-center">
         {member.role}
       </p>
       {hasData && member.program && (
-        <p className={`mt-1 text-xs ${level === 'chair' || level === 'vice' ? 'text-white/75' : 'text-slate-500'}`}>
+        <p className="mt-1 text-[10px] md:text-xs text-slate-500 text-center">
           {member.program}
         </p>
       )}
     </article>
   );
+};
+
+TeamCard.propTypes = {
+  member: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    role: PropTypes.string.isRequired,
+    program: PropTypes.string
+  }).isRequired,
+  level: PropTypes.oneOf(["default", "leadership", "director"])
+};
+
+TeamCard.defaultProps = {
+  level: "default"
 };
 
 export default TeamCard;

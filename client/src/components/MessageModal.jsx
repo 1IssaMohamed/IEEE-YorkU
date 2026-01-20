@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const MessageModal = ({ message, onClose }) => {
   if (!message) {
     return null;
@@ -28,6 +30,18 @@ const MessageModal = ({ message, onClose }) => {
       </div>
     </div>
   );
+};
+
+MessageModal.propTypes = {
+  message: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired
+  }),
+  onClose: PropTypes.func.isRequired
+};
+
+MessageModal.defaultProps = {
+  message: null
 };
 
 export default MessageModal;

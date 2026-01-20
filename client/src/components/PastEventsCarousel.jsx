@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import PropTypes from "prop-types";
 
 /**
  * Unified Past Events Carousel
@@ -11,16 +12,19 @@ const PastEventsCarousel = ({ pastEvents }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Flatten all images from all events into a single array
+  // Flatten all images from all events into a single array (memoized)
   // Keep track of which event each image belongs to
-  const allSlides = pastEvents.flatMap((event) =>
-    event.images.map((image) => ({
-      ...image,
-      eventTitle: event.title,
-      eventDate: event.date,
-      eventLocation: event.location,
-      eventCategory: event.category
-    }))
+  const allSlides = useMemo(() => 
+    pastEvents.flatMap((event) =>
+      event.images.map((image) => ({
+        ...image,
+        eventTitle: event.title,
+        eventDate: event.date,
+        eventLocation: event.location,
+        eventCategory: event.category
+      }))
+    ),
+    [pastEvents]
   );
 
   // Determine which event we're currently showing based on the image index
@@ -39,20 +43,20 @@ const PastEventsCarousel = ({ pastEvents }) => {
     return () => clearInterval(interval);
   }, [currentIndex, isAutoPlaying, allSlides.length]);
 
-  const goToSlide = (index) => {
+  const goToSlide = useCallback((index) => {
     setCurrentIndex(index);
     setIsAutoPlaying(false);
-  };
+  }, []);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + allSlides.length) % allSlides.length);
     setIsAutoPlaying(false);
-  };
+  }, [allSlides.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % allSlides.length);
     setIsAutoPlaying(false);
-  };
+  }, [allSlides.length]);
 
   if (!allSlides || allSlides.length === 0) {
     return (
@@ -74,9 +78,9 @@ const PastEventsCarousel = ({ pastEvents }) => {
   return (
     <div className="relative">
       {/* Main Carousel */}
-      <div className="group relative overflow-hidden rounded-2xl bg-slate-900 shadow-2xl">
-        {/* Image Display - Large format */}
-        <div className="relative aspect-[21/9] w-full overflow-hidden">
+      <div className="group relative overflow-hidden rounded-xl md:rounded-2xl bg-slate-900 shadow-xl md:shadow-2xl touch-pan-y">
+        {/* Image Display - Responsive aspect ratio */}
+        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden">
           {allSlides.map((slide, index) => (
             <div
               key={index}
@@ -91,6 +95,8 @@ const PastEventsCarousel = ({ pastEvents }) => {
               <img
                 src={slide.url}
                 alt={slide.caption || `Event slide ${index + 1}`}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
                 className="h-full w-full object-cover"
               />
               {/* Dark gradient overlay for better text readability */}
@@ -99,33 +105,33 @@ const PastEventsCarousel = ({ pastEvents }) => {
           ))}
 
           {/* Event Info Overlay - Changes dynamically */}
-          <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 text-white">
             <div className="mx-auto max-w-5xl">
               {/* Category Badge */}
-              <span className={`inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest ${categoryStyle}`}>
+              <span className={`inline-block rounded-full px-3 md:px-4 py-1 md:py-1.5 text-xs font-semibold uppercase tracking-widest ${categoryStyle}`}>
                 {currentSlide.eventCategory}
               </span>
               
               {/* Event Title */}
-              <h3 className="mt-3 text-3xl font-bold md:text-4xl">
+              <h3 className="mt-2 md:mt-3 text-xl md:text-3xl lg:text-4xl font-bold line-clamp-2">
                 {currentSlide.eventTitle}
               </h3>
               
               {/* Event Details */}
-              <div className="mt-3 flex flex-wrap gap-4 text-sm md:text-base">
-                <p className="flex items-center gap-2">
+              <div className="mt-2 md:mt-3 flex flex-wrap gap-2 md:gap-4 text-xs md:text-sm lg:text-base">
+                <p className="flex items-center gap-1 md:gap-2">
                   <span aria-hidden="true">📅</span>
                   {currentSlide.eventDate}
                 </p>
-                <p className="flex items-center gap-2">
+                <p className="flex items-center gap-1 md:gap-2">
                   <span aria-hidden="true">📍</span>
-                  {currentSlide.eventLocation}
+                  <span className="line-clamp-1">{currentSlide.eventLocation}</span>
                 </p>
               </div>
 
-              {/* Image Caption */}
+              {/* Image Caption - Hidden on small mobile */}
               {currentSlide.caption && (
-                <p className="mt-2 text-sm text-slate-300 md:text-base">
+                <p className="mt-2 text-xs md:text-sm text-slate-300 hidden sm:block">
                   {currentSlide.caption}
                 </p>
               )}
@@ -133,26 +139,26 @@ const PastEventsCarousel = ({ pastEvents }) => {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - Always visible on mobile */}
         {allSlides.length > 1 && (
           <>
             <button
               type="button"
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 opacity-0 shadow-lg transition hover:bg-white hover:scale-110 group-hover:opacity-100"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 md:p-3 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white hover:scale-110 md:group-hover:opacity-100 touch-manipulation"
               aria-label="Previous image"
             >
-              <svg className="h-6 w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               type="button"
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 opacity-0 shadow-lg transition hover:bg-white hover:scale-110 group-hover:opacity-100"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 md:p-3 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white hover:scale-110 md:group-hover:opacity-100 touch-manipulation"
               aria-label="Next image"
             >
-              <svg className="h-6 w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -168,14 +174,14 @@ const PastEventsCarousel = ({ pastEvents }) => {
         </div>
 
         {/* Counter */}
-        <div className="absolute right-6 top-6 rounded-full bg-black/60 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
+        <div className="absolute right-3 md:right-6 top-3 md:top-6 rounded-full bg-black/60 px-3 md:px-4 py-1 md:py-2 text-xs md:text-sm font-semibold text-white backdrop-blur">
           {currentIndex + 1} / {allSlides.length}
         </div>
       </div>
 
-      {/* Dots Navigation */}
-      {allSlides.length > 1 && (
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+      {/* Dots Navigation - Hidden on mobile, shown on tablet+ */}
+      {allSlides.length > 1 && allSlides.length <= 20 && (
+        <div className="mt-4 md:mt-6 hidden sm:flex flex-wrap justify-center gap-1 md:gap-2">
           {allSlides.map((_, index) => (
             <button
               key={index}
@@ -193,6 +199,24 @@ const PastEventsCarousel = ({ pastEvents }) => {
       )}
     </div>
   );
+};
+
+PastEventsCarousel.propTypes = {
+  pastEvents: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string.isRequired,
+      date: PropTypes.string,
+      location: PropTypes.string,
+      category: PropTypes.string,
+      images: PropTypes.arrayOf(
+        PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          caption: PropTypes.string
+        })
+      ).isRequired
+    })
+  ).isRequired
 };
 
 export default PastEventsCarousel;

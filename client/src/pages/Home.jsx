@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import PropTypes from "prop-types";
 
 import Header from "../components/Header.jsx";
 import HeroSection from "../components/HeroSection.jsx";
@@ -6,12 +7,15 @@ import EventCard from "../components/EventCard.jsx";
 import TeamCard from "../components/TeamCard.jsx";
 import MessageModal from "../components/MessageModal.jsx";
 import PastEventsCarousel from "../components/PastEventsCarousel.jsx";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
 
 const HomePage = ({
   events,
   pastEvents,
   team,
   mission,
+  isLoading,
+  error,
   onNavigate,
   currentSection,
   onSectionInView,
@@ -25,8 +29,11 @@ const HomePage = ({
   // Destructure the active theme colors
   const [start = "#dbeafe", mid = "#f8fafc", end = "#ffffff"] = activeTheme ?? [];
 
-  // Create the gradient string for the background
-  const gradientBackground = `linear-gradient(135deg, ${start}, ${mid}, ${end})`;
+  // Create the gradient string for the background (memoized)
+  const gradientBackground = useMemo(
+    () => `linear-gradient(135deg, ${start}, ${mid}, ${end})`,
+    [start, mid, end]
+  );
 
   // Effect to set up the IntersectionObserver for scroll detection
   useEffect(() => {
@@ -71,7 +78,7 @@ const HomePage = ({
   const revealClass = (id) => (
     visibleSections[id]
       ? "opacity-100 translate-y-0" // Visible state
-      : "opacity-0 translate-y-8"   // Hidden state (shifted down and transparent)
+      : "opacity-100 translate-y-0"   // Always visible - removed hidden state
   );
 
   return (
@@ -88,136 +95,163 @@ const HomePage = ({
       <Header onNavigate={onNavigate} currentSection={currentSection} />
 
       <main className="pt-16">
-        {/* Hero Section */}
-        <HeroSection onNavigate={onNavigate} isVisible={Boolean(visibleSections.home)} />
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex min-h-[60vh] items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        )}
 
-        {/* About Section */}
+        {/* Error State */}
+        {error && !isLoading && (
+          <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
+            <div className="rounded-lg bg-red-50 p-6 text-center">
+              <p className="text-lg font-semibold text-red-600">Something went wrong</p>
+              <p className="mt-2 text-sm text-red-500">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Main Content - only show when not loading */}
+        {!isLoading && !error && (
+          <>
+            {/* Hero Section */}
+            <HeroSection onNavigate={onNavigate} isVisible={Boolean(visibleSections.home)} />
+
             {/* About Section */}
-        <section id="about" className="py-16 md:py-24 bg-gradient-to-br from-slate-50 via-white to-ieee-50/30 backdrop-blur">
-          <div className={`mx-auto max-w-5xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("about")}`}>
-            <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-              About IEEE YorkU
-            </h2>
-            <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-slate-700">
-              {mission}
-            </p>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {[
-                { title: "Workshops", description: "Hands-on experience in emerging tech." },
-                { title: "Industry Links", description: "Networking events and career support." },
-                { title: "Community", description: "Collaborative projects and mentorship." }
-              ].map(({ title, description }) => (
-                <div key={title} className="rounded-2xl border-t-4 border-ieee-600 bg-white p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-                  <h3 className="text-xl font-bold text-ieee-600">{title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{description}</p>
+            <section id="about" className="py-16 md:py-24 bg-gradient-to-br from-slate-50 via-white to-ieee-50/30 backdrop-blur">
+              <div className={`mx-auto max-w-5xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("about")}`}>
+                <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+                  About IEEE YorkU
+                </h2>
+                <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-slate-700">
+                  {mission}
+                </p>
+                <div className="mt-10 grid gap-6 md:grid-cols-3">
+                  {[
+                    { title: "Workshops", description: "Hands-on experience in emerging tech." },
+                    { title: "Industry Links", description: "Networking events and career support." },
+                    { title: "Community", description: "Collaborative projects and mentorship." }
+                  ].map(({ title, description }) => (
+                    <div key={title} className="rounded-2xl border-t-4 border-ieee-600 bg-white p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                      <h3 className="text-xl font-bold text-ieee-600">{title}</h3>
+                      <p className="mt-2 text-sm text-slate-600">{description}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
 
-        {/* Past Events Gallery Section */}
-        <section id="past-events" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-white backdrop-blur">
-          <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("past-events")}`}>
-            <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-              Past Events Gallery
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-slate-700">
-              Relive the highlights from our recent events and workshops
-            </p>
-            <div className="mt-10">
-              <PastEventsCarousel pastEvents={pastEvents} />
-            </div>
-          </div>
-        </section>
+            {/* Past Events Gallery Section */}
+            <section id="past-events" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-white backdrop-blur">
+              <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("past-events")}`}>
+                <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+                  Past Events Gallery
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-slate-700">
+                  Relive the highlights from our recent events and workshops
+                </p>
+                <div className="mt-10">
+                  <PastEventsCarousel pastEvents={pastEvents} />
+                </div>
+              </div>
+            </section>
 
-        {/* Upcoming Events Section */}
-        <section id="events" className="py-16 md:py-24 bg-gradient-to-br from-ieee-50/40 via-white to-slate-50 backdrop-blur">
-          <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("events")}`}>
-            <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-              Upcoming Events
-            </h2>
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {events.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
-          </div>
-        </section>
+            {/* Upcoming Events Section */}
+            <section id="events" className="py-16 md:py-24 bg-gradient-to-br from-ieee-50/40 via-white to-slate-50 backdrop-blur">
+              <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("events")}`}>
+                <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+                  Upcoming Events
+                </h2>
+                <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {events.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+              </div>
+            </section>
 
-        {/* Team Section */}
-        <section id="team" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-yorku-red/5 backdrop-blur">
-          <div className={`mx-auto max-w-7xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
-            <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-              Meet the Executive Team
-            </h2>
-            
-            {/* Org Chart Layout */}
-            {team && team.length > 0 && (
-              <div className="mt-12 space-y-8">
-                {/* Chair - Top Level */}
-                {team[0] && (
-                  <>
-                    <div className="flex justify-center">
-                      <div className="w-64">
-                        <TeamCard member={team[0]} level="chair" />
+            {/* Team Section */}
+            <section id="team" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-yorku-red/5 backdrop-blur">
+              <div className={`mx-auto max-w-7xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
+                <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+                  Meet the Executive Team
+                </h2>
+                
+                {/* Org Chart Layout */}
+                {team && team.length > 0 && (
+                  <div className="mt-12 space-y-16">
+                    {/* Leadership Section - Triangle Structure */}
+                    <div className="flex flex-col items-center">
+                      <div className="mb-8">
+                        <span className="inline-block rounded-full bg-slate-800 px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
+                          Leadership
+                        </span>
+                      </div>
+                      
+                      {/* Chair - Top of Triangle */}
+                      {team.filter(m => m.role?.toLowerCase().includes('chair') && !m.role?.toLowerCase().includes('vice')).slice(0, 1).map((member) => (
+                        <div key={member.id} className="w-72 mb-6">
+                          <TeamCard member={member} />
+                        </div>
+                      ))}
+
+                      {/* Connection Line */}
+                      <div className="h-8 w-1 bg-ieee-600 mb-6"></div>
+
+                      {/* Vice Chairs - Bottom of Triangle */}
+                      <div className="flex justify-center gap-8 flex-wrap">
+                        {team.filter(m => m.role?.toLowerCase().includes('vice')).map((member) => (
+                          <div key={member.id} className="w-72">
+                            <TeamCard member={member} />
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Connection Line */}
-                    <div className="flex justify-center">
-                      <div className="h-8 w-1 bg-gradient-to-b from-ieee-600 to-yorku-red"></div>
+                    {/* Directors Section */}
+                    <div className="flex flex-col items-center">
+                      <div className="mb-8">
+                        <span className="inline-block rounded-full bg-ieee-600 px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
+                          Directors
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-6">
+                        {team.filter((member) => 
+                          member.role?.toLowerCase().includes('director')
+                        ).map((member) => (
+                          <div key={member.id} className="w-72">
+                            <TeamCard member={member} />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </>
-                )}
 
-                {/* Vice Chairs - Second Level */}
-                {(team[1] || team[2]) && (
-                  <div className="relative flex justify-center gap-4">
-                    {/* Horizontal connecting line */}
-                    <div className="absolute top-0 left-1/2 w-64 h-1 bg-gradient-to-r from-yorku-red via-ieee-600 to-yorku-red transform -translate-x-1/2"></div>
-                    
-                    <div className="flex gap-8 pt-8">
-                      {team[1] && (
-                        <div className="w-56">
-                          <TeamCard member={team[1]} level="vice" />
-                        </div>
-                      )}
-                      {team[2] && (
-                        <div className="w-56">
-                          <TeamCard member={team[2]} level="vice" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Directors & Officers - Grid Layout */}
-                {team.length > 3 && (
-                  <div className="pt-8">
-                    <div className="mb-4 text-center">
-                      <span className="inline-block rounded-full bg-ieee-600 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white">
-                        Directors & Officers
-                      </span>
-                    </div>
-                    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                      {team.slice(3).map((member) => (
-                        <TeamCard key={member.id} member={member} level="director" />
-                      ))}
+                    {/* Executives & Officers Section */}
+                    <div className="flex flex-col items-center">
+                      <div className="mb-8">
+                        <span className="inline-block rounded-full bg-yorku-red px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
+                          Executives & Officers
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-6">
+                        {team.filter((member) => 
+                          !member.role?.toLowerCase().includes('director') && 
+                          !member.role?.toLowerCase().includes('chair') &&
+                          !member.role?.toLowerCase().includes('vice')
+                        ).map((member) => (
+                          <div key={member.id} className="w-72">
+                            <TeamCard member={member} />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
-            )}
-
-            {/* Join CTA */}
-            <div className="mt-12 text-center">
-              <p className="text-sm text-slate-600">
-                Interested in joining our executive team? Contact us at <a href="mailto:ieee@yorku.ca" className="font-semibold text-ieee-600 hover:text-yorku-red transition-colors">ieee@yorku.ca</a>
-              </p>
-            </div>
-          </div>
-        </section>
+            </section>
+          </>
+        )}
       </main>
 
       <footer id="contact" className="bg-slate-900 py-12 text-center text-slate-300">
@@ -232,7 +266,7 @@ const HomePage = ({
           </div>
 
           <div className="flex justify-center space-x-8 mb-10">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1" aria-label="Visit IEEE YorkU on Instagram">
               <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-pink-600 transition-colors">
                 {/* Instagram Icon */}
                 <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -241,7 +275,7 @@ const HomePage = ({
               </div>
             </a>
 
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1" aria-label="Connect with IEEE YorkU on LinkedIn">
               <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                 {/* LinkedIn Icon */}
                 <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -250,7 +284,7 @@ const HomePage = ({
               </div>
             </a>
 
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group transition-transform hover:-translate-y-1" aria-label="View IEEE YorkU projects on GitHub">
               <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-gray-600 transition-colors">
                 {/* GitHub Icon */}
                 <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -272,6 +306,59 @@ const HomePage = ({
       <MessageModal message={modalMessage} onClose={onCloseModal} />
     </div>
   );
+};
+
+// PropTypes for type checking
+HomePage.propTypes = {
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      time: PropTypes.string,
+      location: PropTypes.string,
+      category: PropTypes.string,
+      images: PropTypes.array
+    })
+  ),
+  pastEvents: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      images: PropTypes.array
+    })
+  ),
+  team: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string,
+      role: PropTypes.string.isRequired
+    })
+  ),
+  mission: PropTypes.string,
+  isLoading: PropTypes.bool,
+  error: PropTypes.string,
+  onNavigate: PropTypes.func.isRequired,
+  currentSection: PropTypes.string.isRequired,
+  onSectionInView: PropTypes.func,
+  activeTheme: PropTypes.arrayOf(PropTypes.string),
+  modalMessage: PropTypes.shape({
+    title: PropTypes.string,
+    content: PropTypes.string
+  }),
+  onCloseModal: PropTypes.func.isRequired
+};
+
+HomePage.defaultProps = {
+  events: [],
+  pastEvents: [],
+  team: [],
+  mission: "",
+  isLoading: false,
+  error: null,
+  onSectionInView: null,
+  activeTheme: ["#dbeafe", "#f8fafc", "#ffffff"],
+  modalMessage: null
 };
 
 export default HomePage;

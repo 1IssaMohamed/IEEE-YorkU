@@ -1,30 +1,32 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import PropTypes from "prop-types";
 
 const navItemsConfig = [
   { name: "Home", path: "home" },
-  { name: "Events", path: "events" },
-  { name: "Team", path: "team" },
-  { name: "Join Us", path: "contact" }
+  { name: "Events", path: "past-events" },
+  { name: "Team", path: "team" }
 ];
 
 const Header = ({ onNavigate, currentSection }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleNavigate = (path) => {
+  const handleNavigate = useCallback((path) => {
     onNavigate(path);
     setIsOpen(false);
-  };
+  }, [onNavigate]);
+
+  const toggleMenu = useCallback(() => setIsOpen((open) => !open), []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow transition-all">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-8">
-        <div className="flex items-center space-x-3 text-ieee-600">
-          <img src="/ieee.png" alt="IEEE Logo" className="h-10 w-10 object-contain" />
-          <div className="h-8 w-px bg-slate-300"></div>
-          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/York_University_Logo.svg/240px-York_University_Logo.svg.png" alt="York University Logo" className="h-10 w-auto object-contain" />
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 md:px-4 lg:px-8 py-2 md:py-3">
+        <div className="flex items-center space-x-2 md:space-x-3 text-ieee-600">
+          <img src="/ieee.png" alt="IEEE Logo" loading="eager" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
+          <div className="h-6 md:h-8 w-px bg-slate-300 hidden sm:block"></div>
+          <img src="/lassonde.png" alt="Lassonde School of Engineering" loading="eager" className="h-8 md:h-10 w-auto object-contain hidden sm:block" />
           <div className="flex flex-col leading-tight">
-            <span className="text-lg font-bold text-slate-900">IEEE YorkU</span>
-            <span className="text-xs font-medium uppercase tracking-[0.25em] text-slate-500">Student Branch</span>
+            <span className="text-base md:text-lg font-bold text-slate-900">IEEE YorkU</span>
+            <span className="text-[10px] md:text-xs font-medium uppercase tracking-[0.15em] md:tracking-[0.25em] text-slate-500 hidden sm:block">Student Branch</span>
           </div>
         </div>
 
@@ -43,9 +45,10 @@ const Header = ({ onNavigate, currentSection }) => {
 
         <button
           type="button"
-          onClick={() => setIsOpen((open) => !open)}
+          onClick={toggleMenu}
           className="rounded-lg p-2 text-slate-700 transition hover:bg-slate-100 md:hidden"
           aria-label="Toggle navigation"
+          aria-expanded={isOpen}
         >
           <span className="text-2xl leading-none">{isOpen ? "✕" : "☰"}</span>
         </button>
@@ -68,6 +71,11 @@ const Header = ({ onNavigate, currentSection }) => {
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  onNavigate: PropTypes.func.isRequired,
+  currentSection: PropTypes.string.isRequired
 };
 
 export default Header;
