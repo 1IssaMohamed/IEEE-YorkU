@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import Header from "../components/Header.jsx";
 import HeroSection from "../components/HeroSection.jsx";
-import EventCard from "../components/EventCard.jsx";
 import SponsorRibbon from "../components/SponsorRibbon.jsx";
 import TeamCard from "../components/TeamCard.jsx";
 import MessageModal from "../components/MessageModal.jsx";
@@ -20,15 +19,14 @@ const sponsors = [
   { id: 'rbc', name: "RBC", url: "https://www.rbc.com", logo: "/images/sponsors/RBC_logo_PNG1.png" },
   { id: 'kpm', name: "KPM Power", url: "https://www.kpmpower.com", logo: "/images/sponsors/kpm_power-logo.jpg" },
   { id: 'quanser', name: "Quanser", url: "https://www.quanser.com", logo: "/images/sponsors/quanser-logo.jpg" },
-  { id: 'alphawave', name: "AlphaWave Semi", url: "https://www.alphawavesemi.com", logo: "/images/sponsors/alphawave-semi-logo.png" },
+  { id: 'alphawave', name: "AlphaWave Semi", url: "https://awavesemi.com/", logo: "/images/sponsors/alphawave-semi-logo.png" },
   { id: 'pantheon', name: "Pantheon", url: "https://www.pantheonprototyping.com", logo: "/images/sponsors/Pantheon_Gold_Horizontal_Logo.png" },
-  { id: 'protospace', name: "Protospace", url: "https://lassonde.yorku.ca/protospace", logo: "/images/sponsors/PROTOSPACE-logo.png" },
+  { id: 'protospace', name: "Protospace", url: "https://protospacemfg.com/", logo: "/images/sponsors/PROTOSPACE-logo.png" },
   { id: 'ulkasemi', name: "Ulkasemi", url: "https://www.ulkasemi.com", logo: "/images/sponsors/ULKASEMI_LOGO_EPS_V1-01_1_Converted-01.jpg" },
   { id: 'deadline', name: "Deadline", url: "https://deadlinecreative.com", logo: "/images/sponsors/DLC_LOGO.png" },
 ];
 
 const HomePage = ({
-  events,
   pastEvents,
   team,
   mission,
@@ -92,13 +90,6 @@ const HomePage = ({
     return () => observer.disconnect();
   }, [onSectionInView]);
 
-  // Helper to generate classes for reveal animations
-  const revealClass = (id) => (
-    visibleSections[id]
-      ? "opacity-100 translate-y-0" // Visible state
-      : "opacity-100 translate-y-0"   // Always visible - removed hidden state
-  );
-
   return (
     <div className="relative min-h-screen">
       {/* Background gradient layer */}
@@ -138,7 +129,7 @@ const HomePage = ({
 
             {/* About Section */}
             <section id="about" className="py-16 md:py-24 bg-gradient-to-br from-slate-50 via-white to-ieee-50/30 backdrop-blur">
-              <div className={`mx-auto max-w-5xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("about")}`}>
+              <div className="mx-auto max-w-5xl px-4 md:px-6">
                 <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
                   About IEEE YorkU
                 </h2>
@@ -168,7 +159,7 @@ const HomePage = ({
                   <div className="absolute bottom-10 right-10 w-96 h-96 bg-yorku-red/5 rounded-full blur-3xl" />
                </div>
 
-               <div className={`relative mx-auto max-w-4xl px-4 md:px-6 text-center transform transition-all duration-700 ease-out ${revealClass("hardware-club")}`}>
+               <div className="relative mx-auto max-w-4xl px-4 md:px-6 text-center">
                   
                   <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
                     Hardware Design Club
@@ -210,7 +201,7 @@ const HomePage = ({
 
             {/* Past Events Gallery Section */}
             <section id="past-events" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-white backdrop-blur">
-              <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("past-events")}`}>
+              <div className="mx-auto max-w-6xl px-4 md:px-6">
                 <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
                   Past Events Gallery
                 </h2>
@@ -219,20 +210,6 @@ const HomePage = ({
                 </p>
                 <div className="mt-10">
                   <PastEventsCarousel pastEvents={pastEvents} />
-                </div>
-              </div>
-            </section>
-
-            {/* Upcoming Events Section */}
-            <section id="events" className="py-16 md:py-24 bg-gradient-to-br from-ieee-50/40 via-white to-slate-50 backdrop-blur">
-              <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("events")}`}>
-                <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-                  Upcoming Events
-                </h2>
-                <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {events.map((event) => (
-                    <EventCard key={event.id} event={event} />
-                  ))}
                 </div>
               </div>
             </section>
@@ -249,7 +226,7 @@ const HomePage = ({
 
             {/* Team Section */}
             <section id="team" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-yorku-red/5 backdrop-blur">
-              <div className={`mx-auto max-w-7xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
+              <div className="mx-auto max-w-7xl px-4 md:px-6">
                 <h2 className="border-b-4 border-yorku-red pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
                   Meet the Executive Team
                 </h2>
@@ -380,17 +357,6 @@ const HomePage = ({
 
 // PropTypes for type checking
 HomePage.propTypes = {
-  events: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      time: PropTypes.string,
-      location: PropTypes.string,
-      category: PropTypes.string,
-      images: PropTypes.array
-    })
-  ),
   pastEvents: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -420,7 +386,6 @@ HomePage.propTypes = {
 };
 
 HomePage.defaultProps = {
-  events: [],
   pastEvents: [],
   team: [],
   mission: "",

@@ -1,41 +1,27 @@
 import PropTypes from "prop-types";
 
 /**
- * Individual Sponsor Item - Supports Image or Text
+ * Individual Sponsor Item
  */
 const SponsorItem = ({ sponsor }) => {
   return (
-    <div className={`
-      flex flex-shrink-0 items-center justify-center 
-      w-60 h-32 mx-4 p-6
-      bg-slate-50 rounded-lg border border-slate-200
-      transition-all duration-300 hover:bg-white hover:shadow-md hover:border-ieee-300 hover:-translate-y-1
-      ${sponsor.url ? 'cursor-pointer' : ''}
-    `}
-    onClick={() => sponsor.url && window.open(sponsor.url, '_blank')}
-    >
-       {sponsor.logo ? (
-         <img 
-           src={sponsor.logo} 
-           alt={sponsor.name} 
-           className="w-full h-full object-contain transition-all duration-300 transform hover:scale-105"
-           loading="lazy"
-         />
-       ) : (
-         <span className="text-lg font-bold text-center text-slate-600 hover:text-ieee-700 transition-colors break-words">
-          {sponsor.name}
-         </span>
-       )}
+    <div className="flex flex-shrink-0 items-center justify-center w-60 h-32 mx-4 p-6 bg-slate-50 rounded-lg border border-slate-200 transition-all duration-300 hover:bg-white hover:shadow-md hover:border-ieee-300 hover:-translate-y-1 cursor-pointer">
+      <img 
+        src={sponsor.logo} 
+        alt={sponsor.name} 
+        className="w-full h-full object-contain transition-all duration-300 transform hover:scale-105"
+        loading="lazy"
+      />
     </div>
   );
 };
 
 SponsorItem.propTypes = {
   sponsor: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string.isRequired,
-    url: PropTypes.string,
-    logo: PropTypes.string,
+    url: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -62,21 +48,15 @@ const SponsorRibbon = ({ sponsors }) => {
       {/* Scrolling container */}
       <div className="flex w-max animate-scroll-left items-center hover:pause">
         {duplicatedSponsors.map((sponsor, index) => (
-           sponsor.url ? (
-            <a 
-              key={`${sponsor.id}-${index}`} 
-              href={sponsor.url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block no-underline"
-            >
-              <SponsorItem sponsor={sponsor} />
-            </a>
-          ) : (
-             <div key={`${sponsor.id}-${index}`}>
-               <SponsorItem sponsor={sponsor} />
-             </div>
-          )
+          <a 
+            key={`${sponsor.id}-${index}`} 
+            href={sponsor.url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="block no-underline"
+          >
+            <SponsorItem sponsor={sponsor} />
+          </a>
         ))}
       </div>
     </div>
@@ -86,15 +66,12 @@ const SponsorRibbon = ({ sponsors }) => {
 SponsorRibbon.propTypes = {
   sponsors: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       name: PropTypes.string.isRequired,
-      logo: PropTypes.string
+      url: PropTypes.string.isRequired,
+      logo: PropTypes.string.isRequired,
     })
-  )
-};
-
-SponsorRibbon.defaultProps = {
-  sponsors: []
+  ).isRequired,
 };
 
 export default SponsorRibbon;
