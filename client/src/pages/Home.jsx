@@ -4,10 +4,28 @@ import PropTypes from "prop-types";
 import Header from "../components/Header.jsx";
 import HeroSection from "../components/HeroSection.jsx";
 import EventCard from "../components/EventCard.jsx";
+import SponsorRibbon from "../components/SponsorRibbon.jsx";
 import TeamCard from "../components/TeamCard.jsx";
 import MessageModal from "../components/MessageModal.jsx";
 import PastEventsCarousel from "../components/PastEventsCarousel.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+
+const sponsors = [
+  { id: 'amd', name: "AMD", url: "https://www.amd.com", logo: "/images/sponsors/AMD-logo.png" },
+  { id: 'pw', name: "Pratt & Whitney", url: "https://www.prattwhitney.com", logo: "/images/sponsors/pratt&whitney-logo.png" },
+  { id: 'opg', name: "OPG", url: "https://www.opg.com", logo: "/images/sponsors/ontario power generation-lgoo.png" },
+  { id: 'telus', name: "Telus", url: "https://www.telus.com", logo: "/images/sponsors/telus-logo.png" },
+  { id: 'dell', name: "Dell", url: "https://www.dell.com", logo: "/images/sponsors/dell-logo.png" },
+  { id: 'ttc', name: "TTC", url: "https://www.ttc.ca", logo: "/images/sponsors/ttc-logo.png" },
+  { id: 'rbc', name: "RBC", url: "https://www.rbc.com", logo: "/images/sponsors/RBC_logo_PNG1.png" },
+  { id: 'kpm', name: "KPM Power", url: "https://www.kpmpower.com", logo: "/images/sponsors/kpm_power-logo.jpg" },
+  { id: 'quanser', name: "Quanser", url: "https://www.quanser.com", logo: "/images/sponsors/quanser-logo.jpg" },
+  { id: 'alphawave', name: "AlphaWave Semi", url: "https://www.alphawavesemi.com", logo: "/images/sponsors/alphawave-semi-logo.png" },
+  { id: 'pantheon', name: "Pantheon", url: "https://www.pantheonprototyping.com", logo: "/images/sponsors/Pantheon_Gold_Horizontal_Logo.png" },
+  { id: 'protospace', name: "Protospace", url: "https://lassonde.yorku.ca/protospace", logo: "/images/sponsors/PROTOSPACE-logo.png" },
+  { id: 'ulkasemi', name: "Ulkasemi", url: "https://www.ulkasemi.com", logo: "/images/sponsors/ULKASEMI_LOGO_EPS_V1-01_1_Converted-01.jpg" },
+  { id: 'deadline', name: "Deadline", url: "https://deadlinecreative.com", logo: "/images/sponsors/DLC_LOGO.png" },
+];
 
 const HomePage = ({
   events,
@@ -142,6 +160,54 @@ const HomePage = ({
               </div>
             </section>
 
+            {/* Hardware Design Club Section */}
+            <section id="hardware-club" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-ieee-50 relative overflow-hidden">
+               {/* Decorative Background Elements */}
+               <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                  <div className="absolute top-10 left-10 w-64 h-64 bg-ieee-400/5 rounded-full blur-3xl" />
+                  <div className="absolute bottom-10 right-10 w-96 h-96 bg-yorku-red/5 rounded-full blur-3xl" />
+               </div>
+
+               <div className={`relative mx-auto max-w-4xl px-4 md:px-6 text-center transform transition-all duration-700 ease-out ${revealClass("hardware-club")}`}>
+                  
+                  <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+                    Hardware Design Club
+                  </h2>
+
+                  <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-slate-700">
+                    Building <span className="font-bold text-ieee-600">Real Projects</span> with <span className="font-bold text-yorku-red">Real World Standards</span>.
+                  </p>
+
+                  <div className="mx-auto mt-8 mb-12 max-w-3xl text-center text-lg text-slate-600 space-y-4">
+                     <p>
+                        This is an official extension of the IEEE YorkU club dedicated to bridging the gap between theory and practice. 
+                        We focus on <strong className="text-slate-900">ASICs</strong>, <strong className="text-slate-900">FPGAs</strong>, <strong className="text-slate-900">RTL Design</strong>, and <strong className="text-slate-900">Computer Architecture</strong>.
+                     </p>
+                     <p>
+                        Join us for our weekly meetings where we dive deep into technical documentation, collaborate on complex designs, and build hardware that matters.
+                     </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                     <a 
+                       href="#" 
+                       className="group relative inline-flex items-center justify-center gap-2 px-8 py-3.5 text-base font-bold text-white transition-all duration-200 bg-ieee-600 rounded-full hover:bg-ieee-700 hover:shadow-lg hover:shadow-ieee-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ieee-600 w-full sm:w-auto"
+                     >
+                       Join the Team
+                       <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                     </a>
+                     
+                     <a 
+                       href="mailto:contact@ieee.yorku.ca" 
+                       className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-base font-bold text-slate-700 transition-all duration-200 bg-white border-2 border-slate-200 rounded-full hover:border-ieee-300 hover:text-ieee-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 w-full sm:w-auto"
+                     >
+                        Contact Us
+                     </a>
+                  </div>
+
+               </div>
+            </section>
+
             {/* Past Events Gallery Section */}
             <section id="past-events" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-white backdrop-blur">
               <div className={`mx-auto max-w-6xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("past-events")}`}>
@@ -171,6 +237,16 @@ const HomePage = ({
               </div>
             </section>
 
+            {/* Sponsors Section */}
+            <section className="py-16 md:py-24 bg-white border-y border-slate-100">
+              <div className="mx-auto max-w-6xl px-4 md:px-6 mb-12 text-center">
+                <h2 className="border-b-4 border-ieee-600 pb-3 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+                  Sponsored by:
+                </h2>
+              </div>
+              <SponsorRibbon sponsors={sponsors} />
+            </section>
+
             {/* Team Section */}
             <section id="team" className="py-16 md:py-24 bg-gradient-to-br from-white via-slate-50 to-yorku-red/5 backdrop-blur">
               <div className={`mx-auto max-w-7xl px-4 md:px-6 transform transition-all duration-700 ease-out ${revealClass("team")}`}>
@@ -181,16 +257,27 @@ const HomePage = ({
                 {/* Org Chart Layout */}
                 {team && team.length > 0 && (
                   <div className="mt-12 space-y-16">
-                    {/* Leadership Section - Triangle Structure */}
+                    
+                    {/* Section A: Executive Team - Hierarchical Layout */}
                     <div className="flex flex-col items-center">
                       <div className="mb-8">
                         <span className="inline-block rounded-full bg-slate-800 px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
-                          Leadership
+                          Executives
                         </span>
                       </div>
                       
-                      {/* Chair - Top of Triangle */}
-                      {team.filter(m => m.role?.toLowerCase().includes('chair') && !m.role?.toLowerCase().includes('vice')).slice(0, 1).map((member) => (
+                      {/* Tier 1: Chair */}
+                      {team.filter(m => m.role === 'Chair').map((member) => (
+                        <div key={member.id} className="w-72 mb-6">
+                          <TeamCard member={member} level="leadership" />
+                        </div>
+                      ))}
+
+                      {/* Connection Line */}
+                      <div className="h-8 w-1 bg-ieee-600 mb-6"></div>
+
+                      {/* Tier 2: Vice-Chair */}
+                      {team.filter(m => m.role === 'Vice-Chair').map((member) => (
                         <div key={member.id} className="w-72 mb-6">
                           <TeamCard member={member} />
                         </div>
@@ -199,9 +286,13 @@ const HomePage = ({
                       {/* Connection Line */}
                       <div className="h-8 w-1 bg-ieee-600 mb-6"></div>
 
-                      {/* Vice Chairs - Bottom of Triangle */}
-                      <div className="flex justify-center gap-8 flex-wrap">
-                        {team.filter(m => m.role?.toLowerCase().includes('vice')).map((member) => (
+                      {/* Tier 3: Other Executives */}
+                      <div className="flex flex-wrap justify-center gap-8 max-w-5xl">
+                        {team.filter(m => 
+                          m.group === 'executive' && 
+                          m.role !== 'Chair' && 
+                          m.role !== 'Vice-Chair'
+                        ).map((member) => (
                           <div key={member.id} className="w-72">
                             <TeamCard member={member} />
                           </div>
@@ -209,17 +300,15 @@ const HomePage = ({
                       </div>
                     </div>
 
-                    {/* Directors Section */}
+                    {/* Section B: Directors */}
                     <div className="flex flex-col items-center">
                       <div className="mb-8">
                         <span className="inline-block rounded-full bg-ieee-600 px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
-                          Directors
+                          Directors 
                         </span>
                       </div>
-                      <div className="flex flex-wrap justify-center gap-6">
-                        {team.filter((member) => 
-                          member.role?.toLowerCase().includes('director')
-                        ).map((member) => (
+                      <div className="flex flex-wrap justify-center gap-6 max-w-6xl">
+                        {team.filter((member) => member.group === 'director').map((member) => (
                           <div key={member.id} className="w-72">
                             <TeamCard member={member} />
                           </div>
@@ -227,25 +316,6 @@ const HomePage = ({
                       </div>
                     </div>
 
-                    {/* Executives & Officers Section */}
-                    <div className="flex flex-col items-center">
-                      <div className="mb-8">
-                        <span className="inline-block rounded-full bg-yorku-red px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
-                          Executives & Officers
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap justify-center gap-6">
-                        {team.filter((member) => 
-                          !member.role?.toLowerCase().includes('director') && 
-                          !member.role?.toLowerCase().includes('chair') &&
-                          !member.role?.toLowerCase().includes('vice')
-                        ).map((member) => (
-                          <div key={member.id} className="w-72">
-                            <TeamCard member={member} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 )}
               </div>

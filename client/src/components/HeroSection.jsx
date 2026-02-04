@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 const HeroSection = ({ isVisible }) => (
-  <section id="home" className="relative overflow-hidden pt-24 pb-16 md:pt-36 md:pb-28 bg-gradient-to-br from-white via-ieee-50 to-slate-50">
+  <section id="home" className="relative overflow-hidden min-h-screen flex flex-col justify-center pt-0 pb-0 bg-gradient-to-br from-white via-ieee-50 to-slate-50">
     {/* Animated Geometric Background - Hidden on mobile for performance */}
     <div className="absolute inset-0 z-0 overflow-hidden hidden md:block">
       {/* Large floating geometric shapes with solid fills */}
@@ -38,15 +38,15 @@ const HeroSection = ({ isVisible }) => (
       {/* Impact Stats - Responsive sizing */}
       <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-16">
         <div className="flex flex-col items-center">
-          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-ieee-600 drop-shadow-sm">300+</p>
-          <p className="mt-1 md:mt-2 text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600">Active Members</p>
+          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-ieee-600 drop-shadow-sm">250+</p>
+          <p className="mt-1 md:mt-2 text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600">Members</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-yorku-red drop-shadow-sm">40+</p>
-          <p className="mt-1 md:mt-2 text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600">Annual Events</p>
+          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-yorku-red drop-shadow-sm">15+</p>
+          <p className="mt-1 md:mt-2 text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600">Industry Partners</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-ieee-600 drop-shadow-sm">10</p>
+          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-ieee-600 drop-shadow-sm">7</p>
           <p className="mt-1 md:mt-2 text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600">Years Strong</p>
         </div>
       </div>

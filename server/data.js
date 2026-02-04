@@ -67,31 +67,31 @@ export const pastEvents = [
   {
     id: 101,
     title: "Industry Night 2025",
-    date: "Oct 18, 2025",
+    date: "Sep 24, 2025",
     time: "6:00 PM EST",
     location: "Second Student Center",
     images: [
-      { url: "/images/events/industrynight2025/DSC_1721-3.jpg", caption: "X" },
-      { url: "/images/events/industrynight2025/DSC_4036-2.jpg", caption: "X" },
-      { url: "/images/events/industrynight2025/DSC_4151-2.jpg", caption: "X" },
-      { url: "/images/events/industrynight2025/DSC_4194-2.jpg", caption: "X" },
-      { url: "/images/events/industrynight2025/DSC_4998-3.jpg", caption: "X" },
-      { url: "/images/events/industrynight2025/DSC_5316-2.jpg", caption: "X" },
-      { url: "/images/events/industrynight2025/DSC_6488-2.jpg", caption: "X" }
+      { url: "/images/events/industrynight2025/DSC_1721-3.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4036-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4151-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4194-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4998-3.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_5316-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_6488-2.jpg", caption: "In collaboration with York University Robotics Society" }
     ]
   },
   {
     id: 102,
     title: "Industry Night 2024",
-    date: "Oct 18, 2024",
+    date: "Feb 10, 2024",
     time: "6:00 PM EST",
-    location: "Second Student Center",
-    images: [
-      { url: "/images/events/industrynight2024/DSC07199.JPG", caption: "X" },
-      { url: "/images/events/industrynight2024/DSC07222.JPG", caption: "X" },
-      { url: "/images/events/industrynight2024/DSC07225.JPG", caption: "X" },
-      { url: "/images/events/industrynight2024/DSC07236.JPG", caption: "X" },
-      { url: "/images/events/industrynight2024/DSC07604.JPG", caption: "X" }
+    location: "Bergeron Centre",
+    images: [ 
+      { url: "/images/events/industrynight2024/DSC07199.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07222.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07225.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07236.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07604.JPG", caption: "" }
     ]
   }
 ];
@@ -100,103 +100,120 @@ export const pastEvents = [
  * Team Members Data
  * Displayed in the Team section as an org chart
  * 
+ * New optional fields for image adjustment:
+ * - imagePosition: "top" | "center" | "bottom" | "50% 50%" 
+ *   - Use "X% Y%" for fine control (e.g. "40% 50%" shifts slightly left, "60% 50%" shifts slightly right)
+ * - imageScale: number (default: 1) - zooms the image (e.g. 1.2 for 120% zoom)
+ * 
  * Hierarchy levels: 'chair', 'vice', 'director'
  * Leave name empty ("") for open positions
  */
 export const team = [
-  // Chair
+  // Section A: Executive Team
   {
     id: 1,
-    name: "",
+    name: "Sasha Calmels",
     role: "Chair",
-    program: "",
-    level: "chair"
+    linkedin: "https://www.linkedin.com/in/sashacalmels/",
+    group: "executive",
+    image: "/images/members/Sasha_HeadCahir.JPG",
+    imagePosition: "center",
+    imageScale: 1.3
   },
-  // Vice Chairs
   {
     id: 2,
-    name: "",
-    role: "Vice Chair",
-    program: "",
-    level: "vice"
+    name: "Daniel W",
+    role: "Vice-Chair",
+    linkedin: "https://www.linkedin.com/",
+    group: "executive",
+    image: "/images/members/DanielW_ViceChair.JPG",
+    imagePosition: "center",
+    imageScale: 1.7
   },
   {
     id: 3,
-    name: "",
-    role: "Vice Chair",
-    program: "",
-    level: "vice"
+    name: "Daniel Akproh",
+    role: "Secretary",
+    linkedin: "https://www.linkedin.com/in/danielakproh/",
+    group: "executive",
+    image: "/images/members/Daniel_ Secretary.JPG",
+    imagePosition: "35% 50%",
+    imageScale: 1.2
   },
-  // Directors & Officers
   {
     id: 4,
-    name: "",
-    role: "Secretary",
-    program: "",
-    level: "director"
+    name: "Rosario Corsino",
+    role: "Treasurer",
+    linkedin: "https://www.linkedin.com/in/rosario-corsino/",
+    group: "executive",
+    image: "/images/members/Rosario Corsino_ Treasurer.JPG",
+    imagePosition: "center",
+    imageScale: 1.7
   },
   {
     id: 5,
-    name: "",
-    role: "Web Director",
-    program: "",
-    level: "director"
+    name: "Zainab",
+    role: "Women In Engineering (WIE) Chair",
+    linkedin: "https://www.linkedin.com/",
+    group: "executive",
+    image: "/images/members/Zainab_ Women In ENG.JPG",
+    imagePosition: "center",
+    imageScale: 1.5
   },
+  // Section B: Directors (Portfolio Leads)
   {
     id: 6,
-    name: "",
+    name: "Abdi",
     role: "Events Director",
-    program: "",
-    level: "director"
+    linkedin: "https://www.linkedin.com/",
+    group: "director",
+    image: "/images/members/Abdi_ EventsDirector.JPG",
+    imagePosition: "center",
+    imageScale: 1.3
   },
   {
     id: 7,
-    name: "",
-    role: "Treasurer",
-    program: "",
-    level: "director"
+    name: "Rayhaan",
+    role: "Technical Projects Director",
+    linkedin: "https://www.linkedin.com/",
+    group: "director",
+    image: "/images/members/Rayhaan_ Technical Direcotr.JPG",
+    imagePosition: "50% 80%",
+    imageScale: 1.5
   },
   {
     id: 8,
     name: "",
-    role: "Treasurer",
-    program: "",
-    level: "director"
+    role: "External Relations & Sponsorship Director",
+    linkedin: "",
+    group: "director"
   },
   {
     id: 9,
-    name: "",
+    name: "Arshia ",
     role: "Research Director",
-    program: "",
-    level: "director"
+    linkedin: "",
+    group: "director"
   },
   {
     id: 10,
-    name: "",
-    role: "Grad Affairs Director",
-    program: "",
-    level: "director"
+    name: "Mohamed Issa",
+    role: "Communications & Web Director",
+    linkedin: "https://www.linkedin.com/in/mohamed-adel-issa/",
+    group: "director",
+    image: "/images/members/Mohamed Issa _ WebMaster.JPG",
+    imagePosition: "20% 50%",
+    imageScale: 1.3
   },
   {
     id: 11,
-    name: "",
-    role: "Grad Chair",
-    program: "",
-    level: "director"
-  },
-  {
-    id: 12,
-    name: "",
-    role: "Technical Director",
-    program: "",
-    level: "director"
-  },
-  {
-    id: 13,
-    name: "",
-    role: "Women in Engineering Chair",
-    program: "",
-    level: "director"
+    name: "Mohammad shaterabadi",
+    role: "Graduate Affairs Director",
+    linkedin: "https://www.linkedin.com/in/mohammad-shaterabadi",
+    group: "director",
+    image: "/images/members/Mohammad_GradAffair.png",
+    imagePosition: "center",
+    imageScale: 1.0
   }
 ];
 
