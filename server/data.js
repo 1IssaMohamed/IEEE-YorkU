@@ -66,58 +66,32 @@ export const events = [
 export const pastEvents = [
   {
     id: 101,
-    title: "AI/ML Workshop Series",
-    date: "Sept 15, 2025",
-    time: "5:00 PM EST",
-    location: "Bergeron Centre",
-    category: "Technical",
+    title: "Industry Night 2025",
+    date: "Oct 18, 2025",
+    time: "6:00 PM EST",
+    location: "Second Student Center",
     images: [
-      { url: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800", caption: "Introduction to neural networks" },
-      { url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800", caption: "Students working on ML models" },
-      { url: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800", caption: "Live coding demonstration" },
-      { url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800", caption: "Q&A session" }
+      { url: "/images/events/industrynight2025/DSC_1721-3.jpg", caption: "X" },
+      { url: "/images/events/industrynight2025/DSC_4036-2.jpg", caption: "X" },
+      { url: "/images/events/industrynight2025/DSC_4151-2.jpg", caption: "X" },
+      { url: "/images/events/industrynight2025/DSC_4194-2.jpg", caption: "X" },
+      { url: "/images/events/industrynight2025/DSC_4998-3.jpg", caption: "X" },
+      { url: "/images/events/industrynight2025/DSC_5316-2.jpg", caption: "X" },
+      { url: "/images/events/industrynight2025/DSC_6488-2.jpg", caption: "X" }
     ]
   },
   {
     id: 102,
-    title: "Industry Career Fair 2025",
-    date: "Sept 28, 2025",
-    time: "10:00 AM EST",
-    location: "Student Centre",
-    category: "Professional",
+    title: "Industry Night 2024",
+    date: "Oct 18, 2024",
+    time: "6:00 PM EST",
+    location: "Second Student Center",
     images: [
-      { url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800", caption: "Company booths" },
-      { url: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800", caption: "Students networking with recruiters" },
-      { url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800", caption: "Resume review sessions" },
-      { url: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=800", caption: "Mock interview booth" },
-      { url: "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?w=800", caption: "Career fair attendees" }
-    ]
-  },
-  {
-    id: 103,
-    title: "Arduino Hardware Jam",
-    date: "Oct 5, 2025",
-    time: "2:00 PM EST",
-    location: "Engineering Lab 101",
-    category: "Project",
-    images: [
-      { url: "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800", caption: "Arduino circuit boards" },
-      { url: "https://images.unsplash.com/photo-1624953901718-e24ee7200b85?w=800", caption: "Soldering station" },
-      { url: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800", caption: "Completed IoT projects" }
-    ]
-  },
-  {
-    id: 104,
-    title: "Welcome Back Social",
-    date: "Sept 8, 2025",
-    time: "6:30 PM EST",
-    location: "York Lanes",
-    category: "Professional",
-    images: [
-      { url: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800", caption: "Welcome reception" },
-      { url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800", caption: "Team building activities" },
-      { url: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800", caption: "New members meet the exec team" },
-      { url: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=800", caption: "Group photo" }
+      { url: "/images/events/industrynight2024/DSC07199.JPG", caption: "X" },
+      { url: "/images/events/industrynight2024/DSC07222.JPG", caption: "X" },
+      { url: "/images/events/industrynight2024/DSC07225.JPG", caption: "X" },
+      { url: "/images/events/industrynight2024/DSC07236.JPG", caption: "X" },
+      { url: "/images/events/industrynight2024/DSC07604.JPG", caption: "X" }
     ]
   }
 ];

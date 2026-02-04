@@ -35,13 +35,6 @@ const HeroSection = ({ isVisible }) => (
         Where Lassonde Engineers Connect, Create, and Lead
       </p>
 
-      {/* IEEE Motto */}
-      <div className="mb-8 md:mb-12 inline-flex items-center rounded-full bg-ieee-600/20 px-4 md:px-6 py-2 shadow-lg ring-2 ring-ieee-600/30 backdrop-blur-sm">
-        <p className="text-xs md:text-sm lg:text-base font-bold text-slate-800">
-          ⚡ Advancing Technology for Humanity
-        </p>
-      </div>
-
       {/* Impact Stats - Responsive sizing */}
       <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-16">
         <div className="flex flex-col items-center">

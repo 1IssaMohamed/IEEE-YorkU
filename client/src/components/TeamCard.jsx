@@ -2,12 +2,25 @@ import PropTypes from "prop-types";
 
 const TeamCard = ({ member, level = "default" }) => {
   const hasData = member.name && member.name.trim() !== "";
+  const hasImage = member.image && member.image.trim() !== "";
 
   return (
     <article className={`flex flex-col items-center rounded-xl border-2 bg-white text-slate-900 border-ieee-500 p-4 md:p-6 shadow-md transition hover:shadow-lg ${!hasData ? 'opacity-60' : ''}`}>
       {/* Responsive placeholder for face images */}
-      <div className="mb-3 md:mb-4 grid h-24 w-24 md:h-32 md:w-32 place-content-center rounded-full bg-slate-100 text-3xl md:text-4xl">
-        <span aria-hidden="true">👤</span>
+      <div className="mb-3 md:mb-4 h-24 w-24 md:h-32 md:w-32 overflow-hidden rounded-full bg-slate-100">
+        {hasImage ? (
+          <img
+            src={member.image}
+            alt={hasData ? `${member.name} headshot` : "Team member headshot"}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="grid h-full w-full place-content-center text-3xl md:text-4xl">
+            <span aria-hidden="true">👤</span>
+          </div>
+        )}
       </div>
       <h3 className="text-base md:text-lg font-bold text-slate-900 text-center">
         {hasData ? member.name : 'Open Position'}
@@ -29,7 +42,8 @@ TeamCard.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     role: PropTypes.string.isRequired,
-    program: PropTypes.string
+    program: PropTypes.string,
+    image: PropTypes.string
   }).isRequired,
   level: PropTypes.oneOf(["default", "leadership", "director"])
 };

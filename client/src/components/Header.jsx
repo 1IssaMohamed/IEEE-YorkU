@@ -21,9 +21,9 @@ const Header = ({ onNavigate, currentSection }) => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow transition-all">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-3 md:px-4 lg:px-8 py-2 md:py-3">
         <div className="flex items-center space-x-2 md:space-x-3 text-ieee-600">
-          <img src="/ieee.png" alt="IEEE Logo" loading="eager" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
+          <img src="/images/header/ieee.png" alt="IEEE Logo" loading="eager" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
           <div className="h-6 md:h-8 w-px bg-slate-300 hidden sm:block"></div>
-          <img src="/lassonde.png" alt="Lassonde School of Engineering" loading="eager" className="h-8 md:h-10 w-auto object-contain hidden sm:block" />
+          <img src="/images/header/YorkU.png" alt="York University" loading="eager" className="h-8 md:h-10 w-auto object-contain hidden sm:block" />
           <div className="flex flex-col leading-tight">
             <span className="text-base md:text-lg font-bold text-slate-900">IEEE YorkU</span>
             <span className="text-[10px] md:text-xs font-medium uppercase tracking-[0.15em] md:tracking-[0.25em] text-slate-500 hidden sm:block">Student Branch</span>
