@@ -35,8 +35,8 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
 
   if (!images || images.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-lg bg-slate-100">
-        <p className="text-slate-400">No images available</p>
+      <div className="flex h-64 items-center justify-center rounded-lg border border-ieee-100 bg-ieee-50/70">
+        <p className="font-medium text-ieee-800">No images available</p>
       </div>
     );
   }
@@ -78,7 +78,7 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
           <button
             type="button"
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white md:group-hover:opacity-100 touch-manipulation"
+            className="absolute left-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 opacity-100 shadow-lg transition hover:bg-white md:h-12 md:w-12 md:opacity-0 md:group-hover:opacity-100 touch-manipulation"
             aria-label="Previous image"
           >
             <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,7 +88,7 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
           <button
             type="button"
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white md:group-hover:opacity-100 touch-manipulation"
+            className="absolute right-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 opacity-100 shadow-lg transition hover:bg-white md:h-12 md:w-12 md:opacity-0 md:group-hover:opacity-100 touch-manipulation"
             aria-label="Next image"
           >
             <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,13 +106,18 @@ const ImageCarousel = ({ images, autoPlayInterval = 4000 }) => {
               key={index}
               type="button"
               onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all ${
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full"
+              aria-label={`Go to slide ${index + 1}`}
+            >
+              <span
+                aria-hidden="true"
+                className={`h-2 rounded-full transition-all ${
                 index === currentIndex
                   ? "w-8 bg-white"
                   : "w-2 bg-white/50 hover:bg-white/75"
               }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              />
+            </button>
           ))}
         </div>
       )}

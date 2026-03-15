@@ -20,8 +20,7 @@ const PastEventsCarousel = ({ pastEvents }) => {
         ...image,
         eventTitle: event.title,
         eventDate: event.date,
-        eventLocation: event.location,
-        eventCategory: event.category
+        eventLocation: event.location
       }))
     ),
     [pastEvents]
@@ -60,20 +59,11 @@ const PastEventsCarousel = ({ pastEvents }) => {
 
   if (!allSlides || allSlides.length === 0) {
     return (
-      <div className="flex h-96 items-center justify-center rounded-lg bg-slate-100">
-        <p className="text-slate-400">No past events available</p>
+      <div className="flex h-96 items-center justify-center rounded-lg border border-ieee-100 bg-ieee-50/70">
+        <p className="font-medium text-ieee-800">No past events available</p>
       </div>
     );
   }
-
-  // Category styling
-  const categoryStyles = {
-    Technical: "bg-blue-100 text-blue-800 border-blue-400",
-    Professional: "bg-purple-100 text-purple-800 border-purple-400",
-    Project: "bg-green-100 text-green-800 border-green-400"
-  };
-
-  const categoryStyle = categoryStyles[currentSlide.eventCategory] || categoryStyles.Technical;
 
   return (
     <div className="relative">
@@ -99,7 +89,7 @@ const PastEventsCarousel = ({ pastEvents }) => {
                 decoding="async"
                 className="h-full w-full object-cover"
               />
-              {/* Dark gradient overlay for better text readability */}
+              {/* Gradient overlay for better text readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>
           ))}
@@ -107,13 +97,8 @@ const PastEventsCarousel = ({ pastEvents }) => {
           {/* Event Info Overlay - Changes dynamically */}
           <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 text-white">
             <div className="mx-auto max-w-5xl">
-              {/* Category Badge */}
-              <span className={`inline-block rounded-full px-3 md:px-4 py-1 md:py-1.5 text-xs font-semibold uppercase tracking-widest ${categoryStyle}`}>
-                {currentSlide.eventCategory}
-              </span>
-              
               {/* Event Title */}
-              <h3 className="mt-2 md:mt-3 text-xl md:text-3xl lg:text-4xl font-bold line-clamp-2">
+              <h3 className="text-xl md:text-3xl lg:text-4xl font-bold line-clamp-2">
                 {currentSlide.eventTitle}
               </h3>
               
@@ -145,7 +130,7 @@ const PastEventsCarousel = ({ pastEvents }) => {
             <button
               type="button"
               onClick={goToPrevious}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 md:p-3 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white hover:scale-110 md:group-hover:opacity-100 touch-manipulation"
+              className="absolute left-2 md:left-4 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 opacity-100 shadow-lg transition hover:bg-white hover:scale-110 md:h-12 md:w-12 md:opacity-0 md:group-hover:opacity-100 touch-manipulation"
               aria-label="Previous image"
             >
               <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +140,7 @@ const PastEventsCarousel = ({ pastEvents }) => {
             <button
               type="button"
               onClick={goToNext}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 md:p-3 opacity-100 md:opacity-0 shadow-lg transition hover:bg-white hover:scale-110 md:group-hover:opacity-100 touch-manipulation"
+              className="absolute right-2 md:right-4 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 opacity-100 shadow-lg transition hover:bg-white hover:scale-110 md:h-12 md:w-12 md:opacity-0 md:group-hover:opacity-100 touch-manipulation"
               aria-label="Next image"
             >
               <svg className="h-5 w-5 md:h-6 md:w-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,19 +166,24 @@ const PastEventsCarousel = ({ pastEvents }) => {
 
       {/* Dots Navigation - Hidden on mobile, shown on tablet+ */}
       {allSlides.length > 1 && allSlides.length <= 20 && (
-        <div className="mt-4 md:mt-6 hidden sm:flex flex-wrap justify-center gap-1 md:gap-2">
+        <div className="mt-4 hidden flex-wrap justify-center gap-1 sm:flex md:mt-6 md:gap-2">
           {allSlides.map((_, index) => (
             <button
               key={index}
               type="button"
               onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all ${
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full"
+              aria-label={`Go to slide ${index + 1}`}
+            >
+              <span
+                aria-hidden="true"
+                className={`h-2 rounded-full transition-all ${
                 index === currentIndex
                   ? "w-8 bg-ieee-500"
                   : "w-2 bg-slate-300 hover:bg-slate-400"
               }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              />
+            </button>
           ))}
         </div>
       )}
@@ -208,7 +198,6 @@ PastEventsCarousel.propTypes = {
       title: PropTypes.string.isRequired,
       date: PropTypes.string,
       location: PropTypes.string,
-      category: PropTypes.string,
       images: PropTypes.arrayOf(
         PropTypes.shape({
           url: PropTypes.string.isRequired,

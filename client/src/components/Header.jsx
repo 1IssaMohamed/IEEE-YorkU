@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 
 const navItemsConfig = [
   { name: "Home", path: "home" },
+  { name: "About", path: "about" },
+  { name: "Hardware", path: "hardware-club" },
   { name: "Events", path: "past-events" },
-  { name: "Team", path: "team" }
+  { name: "Team", path: "team" },
+  { name: "Contact", path: "contact" }
 ];
 
 const Header = ({ onNavigate, currentSection }) => {
@@ -18,25 +21,31 @@ const Header = ({ onNavigate, currentSection }) => {
   const toggleMenu = useCallback(() => setIsOpen((open) => !open), []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow transition-all">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 md:px-4 lg:px-8 py-2 md:py-3">
-        <div className="flex items-center space-x-2 md:space-x-3 text-ieee-600">
-          <img src="/images/header/ieee.png" alt="IEEE Logo" loading="eager" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
-          <div className="h-6 md:h-8 w-px bg-slate-300 hidden sm:block"></div>
-          <img src="/images/header/YorkU.png" alt="York University" loading="eager" className="h-8 md:h-10 w-auto object-contain hidden sm:block" />
-          <div className="flex flex-col leading-tight">
-            <span className="text-base md:text-lg font-bold text-slate-900">IEEE YorkU</span>
-            <span className="text-[10px] md:text-xs font-medium uppercase tracking-[0.15em] md:tracking-[0.25em] text-slate-500 hidden sm:block">Student Branch</span>
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 bg-white/95 transition-[background-color,border-color] duration-200">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-2 md:px-4 md:py-3 lg:px-8">
+        <button
+          type="button"
+          onClick={() => handleNavigate("home")}
+          className="flex min-w-0 items-center space-x-2 text-ieee-700 transition-colors hover:text-ieee-800 focus:outline-none focus:ring-2 focus:ring-ieee-600 focus:ring-offset-2 md:space-x-3"
+          aria-label="Go to home section"
+        >
+          <img src="/images/header/ieee.png" alt="IEEE Logo" loading="eager" className="h-8 w-8 object-contain md:h-10 md:w-10" />
+          <div className="hidden h-6 w-px bg-slate-300 sm:block md:h-8"></div>
+          <img src="/images/header/YorkU.png" alt="York University" loading="eager" className="hidden h-8 w-auto object-contain sm:block md:h-10" />
+          <div className="flex min-w-0 flex-col leading-tight text-left">
+            <span className="truncate text-base font-bold text-slate-900 md:text-lg">IEEE YorkU</span>
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.15em] text-slate-500 sm:block md:text-xs md:tracking-[0.25em]">Student Branch</span>
           </div>
-        </div>
+        </button>
 
-        <nav className="hidden items-center space-x-6 md:flex">
+        <nav className="hidden items-center space-x-6 md:flex" aria-label="Primary navigation">
           {navItemsConfig.map(({ name, path }) => (
             <button
               key={path}
               onClick={() => handleNavigate(path)}
-              className={`border-b-2 border-transparent pb-1 text-sm font-bold uppercase tracking-wide transition-colors
-                ${currentSection === path ? "border-yorku-red text-yorku-red" : "text-slate-700 hover:text-ieee-600"}`}
+              aria-current={currentSection === path ? "page" : undefined}
+              className={`min-h-11 border-b-2 border-transparent pb-1 text-sm font-semibold uppercase tracking-wide transition-[color,border-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-ieee-600 focus:ring-offset-2
+                ${currentSection === path ? "border-ieee-700 text-ieee-700" : "text-slate-700 hover:text-ieee-700"}`}
             >
               {name}
             </button>
@@ -46,22 +55,24 @@ const Header = ({ onNavigate, currentSection }) => {
         <button
           type="button"
           onClick={toggleMenu}
-          className="rounded-lg p-2 text-slate-700 transition hover:bg-slate-100 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-slate-700 transition-[background-color,transform] duration-200 hover:bg-slate-100 motion-safe:active:scale-95 md:hidden"
           aria-label="Toggle navigation"
           aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
           <span className="text-2xl leading-none">{isOpen ? "✕" : "☰"}</span>
         </button>
       </div>
 
-      <div className={`md:hidden ${isOpen ? "max-h-64" : "max-h-0"} overflow-hidden border-t border-slate-100 bg-white transition-all duration-300`}> 
-        <nav className="flex flex-col space-y-1 px-4 py-4">
+      <div className={`md:hidden ${isOpen ? "max-h-96" : "max-h-0"} overflow-hidden border-t border-slate-200 bg-white transition-[max-height] duration-300`}>
+        <nav id="mobile-navigation" className="flex flex-col space-y-1 px-4 py-4" aria-label="Mobile navigation">
           {navItemsConfig.map(({ name, path }) => (
             <button
               key={path}
               onClick={() => handleNavigate(path)}
-              className={`rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
-                currentSection === path ? "bg-ieee-50 text-ieee-600" : "text-slate-600 hover:bg-slate-100"
+              aria-current={currentSection === path ? "page" : undefined}
+              className={`min-h-11 rounded-lg px-3 py-2 text-left text-sm font-medium transition-[color,background-color,transform,border-color] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-ieee-600 focus:ring-offset-2 ${
+                currentSection === path ? "border border-ieee-200 bg-ieee-100 text-ieee-800" : "border border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-100"
               }`}
             >
               {name}
@@ -69,6 +80,7 @@ const Header = ({ onNavigate, currentSection }) => {
           ))}
         </nav>
       </div>
+
     </header>
   );
 };

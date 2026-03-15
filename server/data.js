@@ -7,7 +7,6 @@ export const clubMission = "To foster technological innovation, provide professi
 /**
  * Events Data
  * Each event includes images for the carousel display
- * Categories: "Technical", "Professional", "Project"
  * 
  * To add a new event:
  * 1. Copy an existing event object
@@ -22,7 +21,6 @@ export const events = [
     date: "Oct 25, 2025",
     time: "6:00 PM EST",
     location: "Virtual (Zoom)",
-    category: "Technical",
     images: [
       { url: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800", caption: "Workshop in progress" },
       { url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800", caption: "Students coding together" },
@@ -35,7 +33,6 @@ export const events = [
     date: "Nov 10, 2025",
     time: "7:30 PM EST",
     location: "YorkU Lassonde Building",
-    category: "Professional",
     images: [
       { url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800", caption: "Networking reception" },
       { url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800", caption: "Alumni panel discussion" },
@@ -49,7 +46,6 @@ export const events = [
     date: "Nov 22, 2025",
     time: "4:00 PM EST",
     location: "Engineering Lab 203",
-    category: "Project",
     images: [
       { url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800", caption: "Robot assembly" },
       { url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800", caption: "Hardware programming" },
@@ -173,9 +169,9 @@ export const team = [
   },
   {
     id: 7,
-    name: "Rayhaan",
+    name: "Rayhaan Yaser",
     role: "Technical Projects Director",
-    linkedin: "https://www.linkedin.com/",
+    linkedin: "https://www.linkedin.com/ray-yasm",
     group: "director",
     image: "/images/members/Rayhaan_ Technical Direcotr.JPG",
     imagePosition: "50% 80%",
@@ -228,19 +224,88 @@ export const team = [
  */
 export const sponsors = [
   {
-    id: 1,
-    name: "TechCorp",
-    logo: "https://via.placeholder.com/200x80/0ea5e9/ffffff?text=TechCorp"
+    id: "amd",
+    name: "AMD",
+    url: "https://www.amd.com",
+    logo: "/images/sponsors/AMD-logo.png"
   },
   {
-    id: 2,
-    name: "InnovateLabs",
-    logo: "https://via.placeholder.com/200x80/8b5cf6/ffffff?text=InnovateLabs"
+    id: "pw",
+    name: "Pratt & Whitney",
+    url: "https://www.prattwhitney.com",
+    logo: "/images/sponsors/pratt&whitney-logo.png"
   },
   {
-    id: 3,
-    name: "FutureSystems",
-    logo: "https://via.placeholder.com/200x80/10b981/ffffff?text=FutureSystems"
-  }
+    id: "opg",
+    name: "OPG",
+    url: "https://www.opg.com",
+    logo: "/images/sponsors/ontario power generation-lgoo.png"
+  },
+  {
+    id: "telus",
+    name: "Telus",
+    url: "https://www.telus.com",
+    logo: "/images/sponsors/telus-logo.png"
+  },
+  {
+    id: "dell",
+    name: "Dell",
+    url: "https://www.dell.com",
+    logo: "/images/sponsors/dell-logo.png"
+  },
+  {
+    id: "ttc",
+    name: "TTC",
+    url: "https://www.ttc.ca",
+    logo: "/images/sponsors/ttc-logo.png"
+  },
+  {
+    id: "rbc",
+    name: "RBC",
+    url: "https://www.rbc.com",
+    logo: "/images/sponsors/RBC_logo_PNG1.png"
+  },
+  {
+    id: "kpm",
+    name: "KPM Power",
+    url: "https://www.kpmpower.com",
+    logo: "/images/sponsors/kpm_power-logo.jpg"
+  },
+  {
+    id: "quanser",
+    name: "Quanser",
+    url: "https://www.quanser.com",
+    logo: "/images/sponsors/quanser-logo.jpg"
+  },
+  {
+    id: "alphawave",
+    name: "AlphaWave Semi",
+    url: "https://awavesemi.com/",
+    logo: "/images/sponsors/alphawave-semi-logo.png"
+  },
+  {
+    id: "pantheon",
+    name: "Pantheon",
+    url: "https://www.pantheonprototyping.com",
+    logo: "/images/sponsors/Pantheon_Gold_Horizontal_Logo.png"
+  },
+  {
+    id: "protospace",
+    name: "Protospace",
+    url: "https://protospacemfg.com/",
+    logo: "/images/sponsors/PROTOSPACE-logo.png"
+  },
+  {
+    id: "ulkasemi",
+    name: "Ulkasemi",
+    url: "https://www.ulkasemi.com",
+    logo: "/images/sponsors/ULKASEMI_LOGO_EPS_V1-01_1_Converted-01.jpg"
+  },
+  {
+    id: "deadline",
+    name: "Deadline",
+    url: "https://deadlinecreative.com",
+    logo: "/images/sponsors/DLC_LOGO.png"
+  },
 ];
 
