@@ -8,6 +8,7 @@ import TeamCard from "../components/TeamCard.jsx";
 import MessageModal from "../components/MessageModal.jsx";
 import PastEventsCarousel from "../components/PastEventsCarousel.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import HardwareInviteModal from "../components/HardwareInviteModal.jsx";
 
 const footerSocialLinks = [
   { label: "Instagram", href: "https://example.com/ieee-yorku-instagram" },
@@ -56,6 +57,7 @@ const HomePage = ({
   // State to track which sections have been revealed (for animation)
   const [visibleSections, setVisibleSections] = useState({ home: true });
   const [activeAboutTab, setActiveAboutTab] = useState(aboutTabItems[0].id);
+  const [isHardwareInviteModalOpen, setIsHardwareInviteModalOpen] = useState(false);
 
   // Destructure the active section gradient colors
   const [
@@ -248,13 +250,15 @@ const HomePage = ({
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                     <a 
-                       href="#contact" 
+                     <button
+                       type="button"
+                       onClick={() => setIsHardwareInviteModalOpen(true)}
                        className="group relative inline-flex w-full items-center justify-center gap-2 rounded-full bg-ieee-600 px-8 py-3.5 text-base font-bold text-white transition-[background-color,box-shadow,transform] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] hover:bg-ieee-700 hover:shadow-lg hover:shadow-ieee-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ieee-600 sm:w-auto"
+                      aria-haspopup="dialog"
                      >
                        Join Hardware Team
                        <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                     </a>
+                     </button>
                      
                      <a 
                        href="mailto:contact@ieee.yorku.ca" 
@@ -446,6 +450,10 @@ const HomePage = ({
         </div>
       </footer>
 
+      <HardwareInviteModal
+        isOpen={isHardwareInviteModalOpen}
+        onClose={() => setIsHardwareInviteModalOpen(false)}
+      />
       <MessageModal message={modalMessage} onClose={onCloseModal} />
     </div>
   );
