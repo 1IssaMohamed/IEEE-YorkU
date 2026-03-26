@@ -8,7 +8,7 @@ import HomePage from "./pages/Home.jsx";
 const SECTION_GRADIENTS = {
   home: ["var(--color-surface-home-start)", "var(--color-surface-home-mid)", "var(--color-surface-home-end)"],
   about: ["var(--color-surface-about-start)", "var(--color-surface-about-mid)", "var(--color-surface-about-end)"],
-  events: ["var(--color-surface-events-start)", "var(--color-surface-events-mid)", "var(--color-surface-events-end)"],
+  "past-events": ["var(--color-surface-events-start)", "var(--color-surface-events-mid)", "var(--color-surface-events-end)"],
   team: ["var(--color-surface-team-start)", "var(--color-surface-team-mid)", "var(--color-surface-team-end)"],
   contact: ["var(--color-surface-contact-start)", "var(--color-surface-contact-mid)", "var(--color-surface-contact-end)"],
   default: ["var(--color-surface-home-start)", "var(--color-surface-home-mid)", "var(--color-surface-home-end)"]

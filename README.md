@@ -127,8 +127,8 @@ npm start       # Start production server
 
 ## 📝 Adding Content
 
-### Adding Events
-Edit `server/data.js` and add to the `events` array:
+### Adding Past Events
+Edit `server/data.js` and add to the `pastEvents` array:
 
 ```javascript
 {

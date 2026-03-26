@@ -12,7 +12,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import nodemailer from "nodemailer";
 
-import { clubMission, events, pastEvents, team, sponsors } from "./data.js";
+import { clubMission, pastEvents, team, sponsors } from "./data.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -149,11 +149,6 @@ app.get("/api/health", (_req, res) => {
 // Get club information (mission statement)
 app.get("/api/info", (_req, res) => {
   res.json({ mission: clubMission });
-});
-
-// Get all events with images
-app.get("/api/events", (_req, res) => {
-  res.json(events);
 });
 
 // Get all past events with images

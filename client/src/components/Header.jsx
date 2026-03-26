@@ -32,10 +32,6 @@ const Header = ({ onNavigate, currentSection }) => {
           <img src="/images/header/ieee.png" alt="IEEE Logo" loading="eager" className="h-8 w-8 object-contain md:h-10 md:w-10" />
           <div className="hidden h-6 w-px bg-slate-300 sm:block md:h-8"></div>
           <img src="/images/header/YorkU.png" alt="York University" loading="eager" className="hidden h-8 w-auto object-contain sm:block md:h-10" />
-          <div className="flex min-w-0 flex-col leading-tight text-left">
-            <span className="truncate text-base font-bold text-slate-900 md:text-lg">IEEE YorkU</span>
-            <span className="hidden text-[10px] font-medium uppercase tracking-[0.15em] text-slate-500 sm:block md:text-xs md:tracking-[0.25em]">Student Branch</span>
-          </div>
         </button>
 
         <nav className="hidden items-center space-x-6 md:flex" aria-label="Primary navigation">
