@@ -3,7 +3,19 @@ import PropTypes from "prop-types";
 const TeamCard = ({ member }) => {
   const hasData = member.name && member.name.trim() !== "";
   const hasImage = member.image && member.image.trim() !== "";
-  const hasLinkedin = member.linkedin && member.linkedin.trim() !== "";
+  // Validate LinkedIn URL: must be a real profile, not just the homepage
+  const hasLinkedin = (() => {
+    if (!member.linkedin || member.linkedin.trim() === "") return false;
+    try {
+      const url = new URL(member.linkedin);
+      if (url.protocol !== "https:" && url.protocol !== "http:") return false;
+      // Reject bare homepage links like "https://www.linkedin.com/" or "https://www.linkedin.com"
+      if (url.pathname === "/" || url.pathname === "") return false;
+      return true;
+    } catch {
+      return false;
+    }
+  })();
 
   return (
     <article className={`flex flex-col items-center rounded-xl border-2 bg-white text-slate-900 border-ieee-500 p-4 md:p-6 shadow-md transition hover:shadow-lg ${!hasData ? 'opacity-60' : ''}`}>

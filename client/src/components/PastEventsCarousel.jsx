@@ -73,7 +73,7 @@ const PastEventsCarousel = ({ pastEvents }) => {
         <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden">
           {allSlides.map((slide, index) => (
             <div
-              key={index}
+              key={slide.url}
               className={`absolute inset-0 transition-all duration-700 ease-in-out ${
                 index === currentIndex
                   ? "translate-x-0 opacity-100"

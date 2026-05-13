@@ -1,25 +1,12 @@
 {
   "name": "ieee-yorku-website",
-  "version": "1.0.0",
-  "description": "IEEE YorkU student branch website - full-stack React + Express application",
+  "version": "2.0.0",
+  "description": "IEEE YorkU student branch website — static React site deployed on GitHub Pages",
   "private": true,
   "scripts": {
-    "install-all": "npm install && npm install --prefix client && npm install --prefix server",
-    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "install": "npm install --prefix client",
+    "dev": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
-    "start": "npm start --prefix server"
-  },
-  "keywords": [
-    "react",
-    "express",
-    "ieee",
-    "student-club",
-    "website"
-  ],
-  "devDependencies": {
-    "concurrently": "^9.0.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "preview": "npm run preview --prefix client"
   }
 }

@@ -25,7 +25,7 @@ const SponsorItem = ({ sponsor }) => {
   const hasLogo = Boolean(sponsor.logo) && !imageFailed;
 
   return (
-    <div className="flex h-32 w-60 flex-shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-ieee-300 hover:bg-white hover:shadow-md">
+    <div className="flex h-32 w-60 flex-shrink-0 items-center justify-center p-4 text-center transition-all duration-300 hover:-translate-y-1">
       {hasLogo ? (
         <img
           src={sponsor.logo}
@@ -129,7 +129,7 @@ const SponsorRibbon = ({ sponsors }) => {
       <div
         className={
           useTicker
-            ? "flex w-max items-center animate-scroll-left"
+            ? "flex w-max items-center gap-6 animate-scroll-left"
             : "grid grid-cols-1 justify-items-center gap-4 px-4 sm:grid-cols-2 lg:grid-cols-3"
         }
         role="list"

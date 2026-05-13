@@ -1,0 +1,22 @@
+{
+  "name": "ieee-hardware-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Discord verification bot for IEEE YorkU Hardware Club — verifies @my.yorku.ca student emails via OTP",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "@azure/communication-email": "^1.0.0",
+    "better-sqlite3": "^11.0.0",
+    "discord.js": "^14.16.0",
+    "dotenv": "^16.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "IEEE YorkU",
+  "license": "MIT"
+}

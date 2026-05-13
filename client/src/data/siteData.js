@@ -1,0 +1,269 @@
+/**
+ * IEEE YorkU Website — Static Data
+ *
+ * All club data previously served by the Express API.
+ * Now imported directly by React components.
+ *
+ * To update content (events, team, sponsors), edit this file directly.
+ */
+
+/**
+ * Club Mission Statement
+ * Displayed in the About section of the website
+ */
+export const clubMission = "To foster technological innovation, provide professional development opportunities, and build a strong community for engineering and computing students at York University, upholding the core values of IEEE.";
+
+/**
+ * Past Events Data
+ * Archive of completed events with photo galleries
+ * Event archive used by the public gallery
+ */
+export const pastEvents = [
+  {
+    id: 101,
+    title: "Industry Night 2025",
+    date: "Sep 24, 2025",
+    time: "6:00 PM EST",
+    location: "Second Student Center",
+    images: [
+      { url: "/images/events/industrynight2025/DSC_1721-3.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4036-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4151-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4194-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_4998-3.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_5316-2.jpg", caption: "In collaboration with York University Robotics Society" },
+      { url: "/images/events/industrynight2025/DSC_6488-2.jpg", caption: "In collaboration with York University Robotics Society" }
+    ]
+  },
+  {
+    id: 102,
+    title: "Industry Night 2024",
+    date: "Feb 10, 2024",
+    time: "6:00 PM EST",
+    location: "Bergeron Centre",
+    images: [
+      { url: "/images/events/industrynight2024/DSC07199.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07222.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07225.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07236.JPG", caption: "" },
+      { url: "/images/events/industrynight2024/DSC07604.JPG", caption: "" }
+    ]
+  }
+];
+
+/**
+ * Team Members Data
+ * Displayed in the Team section as an org chart
+ * 
+ * New optional fields for image adjustment:
+ * - imagePosition: "top" | "center" | "bottom" | "50% 50%" 
+ *   - Use "X% Y%" for fine control (e.g. "40% 50%" shifts slightly left, "60% 50%" shifts slightly right)
+ * - imageScale: number (default: 1) - zooms the image (e.g. 1.2 for 120% zoom)
+ * 
+ * Hierarchy levels: 'chair', 'vice', 'director'
+ * Leave name empty ("") for open positions
+ */
+export const team = [
+  // Section A: Executive Team
+  {
+    id: 1,
+    name: "Sasha Calmels",
+    role: "Chair",
+    linkedin: "https://www.linkedin.com/in/sashacalmels/",
+    group: "executive",
+    image: "/images/members/Sasha_HeadCahir.JPG",
+    imagePosition: "center",
+    imageScale: 1.3
+  },
+  {
+    id: 2,
+    name: "Daniel W",
+    role: "Vice-Chair",
+    linkedin: "https://www.linkedin.com/",
+    group: "executive",
+    image: "/images/members/DanielW_ViceChair.JPG",
+    imagePosition: "center",
+    imageScale: 1.7
+  },
+  {
+    id: 3,
+    name: "Daniel Akproh",
+    role: "Secretary",
+    linkedin: "https://www.linkedin.com/in/danielakproh/",
+    group: "executive",
+    image: "/images/members/Daniel_ Secretary.JPG",
+    imagePosition: "35% 50%",
+    imageScale: 1.2
+  },
+  {
+    id: 4,
+    name: "Rosario Corsino",
+    role: "Treasurer",
+    linkedin: "https://www.linkedin.com/in/rosario-corsino/",
+    group: "executive",
+    image: "/images/members/Rosario Corsino_ Treasurer.JPG",
+    imagePosition: "center",
+    imageScale: 1.7
+  },
+  {
+    id: 5,
+    name: "Zainab",
+    role: "Women In Engineering (WIE) Chair",
+    linkedin: "https://www.linkedin.com/",
+    group: "executive",
+    image: "/images/members/Zainab_ Women In ENG.JPG",
+    imagePosition: "center",
+    imageScale: 1.5
+  },
+  // Section B: Directors (Portfolio Leads)
+  {
+    id: 6,
+    name: "Abdi",
+    role: "Events Director",
+    linkedin: "https://www.linkedin.com/",
+    group: "director",
+    image: "/images/members/Abdi_ EventsDirector.JPG",
+    imagePosition: "center",
+    imageScale: 1.3
+  },
+  {
+    id: 7,
+    name: "Rayhaan Yaser",
+    role: "Technical Projects Director",
+    linkedin: "https://www.linkedin.com/ray-yasm",
+    group: "director",
+    image: "/images/members/Rayhaan_ Technical Direcotr.JPG",
+    imagePosition: "50% 80%",
+    imageScale: 1.5
+  },
+  {
+    id: 8,
+    name: "",
+    role: "External Relations & Sponsorship Director",
+    linkedin: "",
+    group: "director"
+  },
+  {
+    id: 9,
+    name: "Arshia ",
+    role: "Research Director",
+    linkedin: "",
+    group: "director"
+  },
+  {
+    id: 10,
+    name: "Mohamed Issa",
+    role: "Communications & Web Director",
+    linkedin: "https://www.linkedin.com/in/mohamed-adel-issa/",
+    group: "director",
+    image: "/images/members/Mohamed Issa _ WebMaster.JPG",
+    imagePosition: "20% 50%",
+    imageScale: 1.3
+  },
+  {
+    id: 11,
+    name: "Mohammad shaterabadi",
+    role: "Graduate Affairs Director",
+    linkedin: "https://www.linkedin.com/in/mohammad-shaterabadi",
+    group: "director",
+    image: "/images/members/Mohammad_GradAffair.jpg",
+    imagePosition: "center",
+    imageScale: 1.0
+  }
+];
+
+/**
+ * Sponsors Data
+ * Companies and organizations supporting IEEE YorkU
+ * 
+ * To add a sponsor:
+ * 1. Add logo URL (or leave blank for text-only display)
+ * 2. Add company name
+ * 3. Increment the ID
+ */
+export const sponsors = [
+  {
+    id: "amd",
+    name: "AMD",
+    url: "https://www.amd.com",
+    logo: "/images/sponsors/AMD-logo.png"
+  },
+  {
+    id: "pw",
+    name: "Pratt & Whitney",
+    url: "https://www.prattwhitney.com",
+    logo: "/images/sponsors/pratt&whitney-logo.png"
+  },
+  {
+    id: "opg",
+    name: "OPG",
+    url: "https://www.opg.com",
+    logo: "/images/sponsors/ontario power generation-lgoo.png"
+  },
+  {
+    id: "telus",
+    name: "Telus",
+    url: "https://www.telus.com",
+    logo: "/images/sponsors/telus-logo.png"
+  },
+  {
+    id: "dell",
+    name: "Dell",
+    url: "https://www.dell.com",
+    logo: "/images/sponsors/dell-logo.png"
+  },
+  {
+    id: "ttc",
+    name: "TTC",
+    url: "https://www.ttc.ca",
+    logo: "/images/sponsors/ttc-logo.png"
+  },
+  {
+    id: "rbc",
+    name: "RBC",
+    url: "https://www.rbc.com",
+    logo: "/images/sponsors/RBC_logo_PNG1.png"
+  },
+  {
+    id: "kpm",
+    name: "KPM Power",
+    url: "https://www.kpmpower.com",
+    logo: "/images/sponsors/kpm_power-logo.jpg"
+  },
+  {
+    id: "quanser",
+    name: "Quanser",
+    url: "https://www.quanser.com",
+    logo: "/images/sponsors/quanser-logo.jpg"
+  },
+  {
+    id: "alphawave",
+    name: "AlphaWave Semi",
+    url: "https://awavesemi.com/",
+    logo: "/images/sponsors/alphawave-semi-logo.png"
+  },
+  {
+    id: "pantheon",
+    name: "Pantheon",
+    url: "https://pantheon3dp.ca/",
+    logo: "/images/sponsors/Pantheon_Gold_Horizontal_Logo.png"
+  },
+  {
+    id: "protospace",
+    name: "Protospace",
+    url: "https://protospacemfg.com/",
+    logo: "/images/sponsors/PROTOSPACE-logo.png"
+  },
+  {
+    id: "ulkasemi",
+    name: "Ulkasemi",
+    url: "https://www.ulkasemi.com",
+    logo: "/images/sponsors/ULKASEMI_LOGO_EPS_V1-01_1_Converted-01.jpg"
+  },
+  {
+    id: "deadline",
+    name: "Deadline",
+    url: "https://deadlinecreative.com",
+    logo: "/images/sponsors/DLC_LOGO.png"
+  },
+];
